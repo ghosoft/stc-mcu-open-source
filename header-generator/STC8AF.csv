@@ -1,0 +1,269 @@
+,Symbol,Address,Default,Description,,Bit 7,Bit 6,Bit 5,Bit 4,Bit 3,Bit 2,Bit 1,Bit 0
+,,,,,,,,,,,,,
+C,This file can be used with the following parts with some limitations:
+C,
+C,+----------------+-----+-----+-----+------+--------+------------+
+C,| Part           | ADC | PCA | PWM | UART | Timers | GPIO Ports |
+C,+----------------+-----+-----+-----+------+--------+------------+
+C,| STC8A8K64S4A12 | yes | yes | yes | 4    | 5      | 8          |
+C,| STC8A8K64S2A12 | yes | yes | yes | 2    | 5      | 8          |
+C,| STC8F2K64S4    | no  | no  | no  | 4    | 5      | 8          |
+C,| STC8F2K64S2    | no  | no  | no  | 2    | 5      | 8          |
+C,| STC8F1K08S2    | no  | no  | no  | 2    | 3      | 3 (1/3/5)  |
+C,| STC8F1K08      | no  | no  | no  | 1    | 3      | 2 (3/5)    |
+C,+----------------+-----+-----+-----+------+--------+------------+
+,,,,,,,,,,,,,
+8,P0,80,11111111,Port 0,,P0.7,P0.6,P0.5,P0.4,P0.3,P0.2,P0.1,P0.0
+8,SP,81,00000111,Stack Pointer,,,,,,,,,
+8,DPL,82,00000000,Data Pointer (DPTR) low,,,,,,,,,
+8,DPH,83,00000000,Data Pointer (DPTR) high,,,,,,,,,
+8,S4CON,84,00000000,,,S4SM0,S4ST4,S4SM2,S4REN,S4TB8,S4RB8,S4TI,S4RI
+8,S4BUF,85,xxxxxxxx,,,,,,,,,,
+,,86,,,,,,,,,,,
+8,PCON,87,00110000,Power control,,SMOD,SMOD0,LVDF,POF,GF1,GF0,PD,IDL
+8,TCON,88,00000000,Timer control,,TF1,TR1,TF0,TR0,IE1,IT1,IE0,IT0
+8,TMOD,89,00000000,Timer mode,,T1_GATE,T1_C/T,T1_M1,T1_M0,T0_GATE,T0_C/T,T0_M1,T0_M0
+8,TL0,8A,00000000,Timer 0 low,,,,,,,,,
+8,TL1,8B,00000000,Timer 1 low,,,,,,,,,
+8,TH0,8C,00000000,Timer 0 high,,,,,,,,,
+8,TH1,8D,00000000,Timer 1 high,,,,,,,,,
+8,AUXR,8E,00000001,Auxiliary register,,T0x12,T1x12,UART_M0x6,T2R,T2_C/T,T2x12,EXTRAM,S1ST2
+8,INTCLKO,8F,x000x000,CLK_Output and external interrupt enable register,,-,EX4,EX3,EX2,-,T2CLKO,T1CLKO,T0CLKO
+8,P1,90,11111111,Port 1,,P1.7,P1.6,P1.5,P1.4,P1.3,P1.2,P1.1,P1.0
+8,P1M1,91,00000000,Port 1 Configuration 1,,,,,,,,,
+8,P1M0,92,00000000,Port 1 Configuration 0,,,,,,,,,
+8,P0M1,93,00000000,Port 0 Configuration 1,,,,,,,,,
+8,P0M0,94,00000000,Port 0 Configuration 0,,,,,,,,,
+8,P2M1,95,00000000,Port 2 Configuration 1,,,,,,,,,
+8,P2M0,96,00000000,Port 2 Configuration 0,,,,,,,,,
+8,AUXR2,97,xxxnxxxx,Auxiliary register 2,,-,-,-,TXLNRX,-,-,-,-
+8,SCON,98,00000000,Serial control,,SM0/FE,SM1,SM2,REN,TB8,RB8,TI,RI
+8,SBUF,99,xxxxxxxx,Serial buffer,,,,,,,,,
+8,S2CON,9A,01000000,S2 serial control,,S2SM0,-,S2SM2,S2REN,S2TB8,S2RB8,S2TI,S2RI
+8,S2BUF,9B,xxxxxxxx,S2 serial buffer,,,,,,,,,
+,,9C,,,,,,,,,,,
+,,9D,,,,,,,,,,,
+,,9E,,,,,,,,,,,
+,,9F,,,,,,,,,,,
+8,P2,A0,11111111,Port 2,,P2.7,P2.6,P2.5,P2.4,P2.3,P2.2,P2.1,P2.0
+8,BUS_SPEED,A1,00xxxx00,Bus speed control,,RW_S1,RW_S0,-,-,-,-,BUS_SPEED1,BUS_SPEED0
+8,P_SW1,A2,nn00000x,Auxiliary register 1,,S1_S1,S1_S0,CCP_S1,CCP_S0,SPI_S1,SPI_S0,0,-
+,,A3,,,,,,,,,,,
+,,A4,,,,,,,,,,,
+,,A5,,,,,,,,,,,
+,,A6,,,,,,,,,,,
+,,A7,,,,,,,,,,,
+8,IE,A8,00000000,Interrupt enable,,EA,ELVD,EADC,ES,ET1,EX1,ET0,EX0
+8,SADDR,A9,00000000,Slave address,,,,,,,,,
+8,WKTCL,AA,11111111,Power-down wake-up timer control register low,,,,,,,,,
+8,WKTCH,AB,01111111,Power-down wake-up timer control register high,,WKTEN,,,,,,,
+8,S3CON,AC,00000000,S3 serial control,,S3SM0,S3ST3,S3SM2,S3REN,S3TB8,S3RB8,S3TI,S3RI
+8,S3BUF,AD,00000000,S3 serial buffer,,,,,,,,,
+8,TA,AE,00000000,DPTR timing control register,,,,,,,,,
+8,IE2,AF,x0000000,Interrupt enable 2,,-,ET4,ET3,ES4,ES3,ET2,ESPI,ES2
+8,P3,B0,11111111,Port 3,,P3.7,P3.6,P3.5,P3.4,P3.3,P3.2,P3.1,P3.0
+8,P3M1,B1,00000000,Port 3 configuration 1,,,,,,,,,
+8,P3M0,B2,00000000,Port 3 configuration 0,,,,,,,,,
+8,P4M1,B3,00000000,Port 4 configuration 1,,,,,,,,,
+8,P4M0,B4,00000000,Port 4 configuration 0,,,,,,,,,
+8,IP2,B5,x0000000,Interrupt priority register 2 low,,-,PI2C,PCMP,PX4,PPWMFD,PPWM,PSPI,PS2
+8,IP2H,B6,x0000000,Interrupt priority register 2 high,,-,PI2CH,PCMPH,PX4H,PPWMFDH,PPWMH,PSPIH,PS2H
+8,IPH,B7,00000000,Interrupt priority register high,,PPCAH,PLVDH,PADCH,PSH,PT1H,PX1H,PT0H,PX0H
+8,IP,B8,00000000,Interrupt priority register low,,PPCA,PLVD,PADC,PS,PT1,PX1,PT0,PX0
+8,SADEN,B9,00000000,Slave address mask,,,,,,,,,
+8,P_SW2,BA,0x000000,Peripheral function switch register 2,,EAXSFR,-,I2C_S1,I2C_S0,CMPO_S,S4_S,S3_S,S2_S
+8,VOCTRL,BB,0xxxxx00,Voltage control register,,SCC,-,-,-,-,-,0,0
+8,ADC_CONTR,BC,00000000,ADC control,,ADC_POWER,ADC_START,ADC_FLAG,-,ADC_CHS3,ADC_CHS2,ADC_CHS1,ADC_CHS0
+8,ADC_RES,BD,00000000,ADC result,,,,,,,,,
+8,ADC_RESL,BE,00000000,ADC result low,,,,,,,,,
+,,BF,,,,,,,,,,,
+8,P4,C0,11111111,Port 4,,-,-,-,P4.4,P4.3,P4.2,P4.1,P4.0
+8,WDT_CONTR,C1,0x000000,Watchdog timer control,,WDT_FLAG,-,EN_WDT,CLR_WDT,IDL_WDT,WDT_PS2,WDT_PS1,WDT_PS0
+8,IAP_DATA,C2,11111111,ISP/IAP flash data register,,,,,,,,,
+8,IAP_ADDRH,C3,00000000,ISP/IAP flash address high,,,,,,,,,
+8,IAP_ADDRL,C4,00000000,ISP/IAP flash address low,,,,,,,,,
+8,IAP_CMD,C5,xxxxxx00,ISP/IAP flash command register,,-,-,-,-,-,-,CMD1,CMD0
+8,IAP_TRIG,C6,xxxxxxxx,ISP/IAP flash trigger register,,,,,,,,,
+8,IAP_CONTR,C7,0000x000,ISP/IAP flash control register,,IAPEN,SWBS,SWRST,CMD_FAIL,-,IAP_WT2,IAP_WT1,IAP_WT0
+8,P5,C8,xx111111,Port 5,,-,-,P5.5,P5.4,P5.3,P5.2,P5.1,P5.0
+8,P5M1,C9,00000000,Port 5 configuration 1,,,,,,,,,
+8,P5M0,CA,00000000,Port 5 configuration 0,,,,,,,,,
+8,P6M1,CB,,Port 6 configuration 1,,,,,,,,,
+8,P6M0,CC,,Port 6 configuration 0,,,,,,,,,
+8,SPSTAT,CD,00xxxxxx,SPI status register,,SPIF,WCOL,-,-,-,-,-,-
+8,SPCTL,CE,00000100,SPI control register,,SSIG,SPEN,DORD,MSTR,CPOL,CPHA,SPR1,SPR0
+8,SPDAT,CF,00000000,SPI data register,,,,,,,,,
+8,PSW,D0,00000000,Program status word,,CY,AC,F0,RS1,RS0,OV,F1,P
+8,T4T3M,D1,00000000,T4 and T3 mode register,,T4R,T4_C/T,T4x12,T4CLKO,T3R,T3_C/T,T3x12,T3CLKO
+8,T4H,D2,00000000,Timer 4 high,,,,,,,,,
+8,T4L,D3,00000000,Timer 4 low,,,,,,,,,
+8,T3H,D4,00000000,Timer 3 high,,,,,,,,,
+8,T3L,D5,00000000,Timer 3 low,,,,,,,,,
+8,T2H,D6,00000000,Timer 2 high,,,,,,,,,
+8,T2L,D7,00000000,Timer 2 low,,,,,,,,,
+8,CCON,D8,00xx0000,PCA control register,,CF,CR,-,-,CCF3,CCF2,CCF1,CCF0
+8,CMOD,D9,00xx0000,PCA mode register,,CIDL,-,-,-,CPS2,CPS1,CPS0,ECF
+8,CCAPM0,DA,x0000000,PCA module 0 mode register,,-,ECOM0,CAPP0,CAPN0,MAT0,TOG0,PWM0,EECF0
+8,CCAPM1,DB,x0000000,PCA module 1 mode register,,-,ECOM1,CAPP1,CAPN1,MAT1,TOG1,PWM1,EECF1
+8,CCAPM2,DC,x0000000,PCA module 2 mode register,,-,ECOM2,CAPP2,CAPN2,MAT2,TOG2,PWM2,EECF2
+8,CCAPM3,DD,x0000000,PCA module 3 mode register,,-,ECOM3,CAPP3,CAPN3,MAT3,TOG3,PWM3,EECF3
+8,ADCCFG,DE,xx0x0000,ADC configuration register,,-,-,RESFMT,-,ADC_SPEED3,ADC_SPEED2,ADC_SPEED1,ADC_SPEED0
+,,DF,,,,,,,,,,,
+8,ACC,E0,00000000,Accumulator,,,,,,,,,
+8,P7M1,E1,00000000,Port 7 configuration 1,,,,,,,,,
+8,P7M0,E2,00000000,Port 7 configuration 0,,,,,,,,,
+8,DPS,E3,00000xx0,Data Pointer selector,,ID1,ID0,TSL,AU1,AU0,-,-,DPSEL
+8,DPL1,E4,00000000,Second data pointer low,,,,,,,,,
+8,DPH1,E5,00000000,Second data pointer high,,,,,,,,,
+8,CMPCR1,E6,00000000,Comparator control register 1,,CMPEN,CMPIF,PIE,NIE,PIS,NIS,CMPOE,CMPRES
+8,CMPCR2,E7,00000000,Comparator control register 2,,INVCMPO,DISFLT,LCDTY5,LCDTY4,LCDTY3,LCDTY2,LCDTY1,LCDTY0
+8,P6,E8,,Port 6,,,,,,,,,
+8,CL,E9,00000000,PCA base timer low,,,,,,,,,
+8,CCAP0L,EA,00000000,PCA module 0 capture register low,,,,,,,,,
+8,CCAP1L,EB,00000000,PCA module 1 capture register low,,,,,,,,,
+8,CCAP2L,EC,00000000,PCA module 2 capture register low,,,,,,,,,
+8,CCAP3L,ED,00000000,PCA module 3 capture register low,,,,,,,,,
+,,EE,,,,,,,,,,,
+8,AUXINTIF,EF,x000x000,Extended external interrupt flag register,,-,INT4IF,INT3IF,INT2IF,-,T4IF,T3IF,T2IF
+8,B,F0,00000000,B register,,,,,,,,,
+8,PWMCFG,F1,00000000,PWM configuration register,,CBIF,ETADC,-,-,-,-,-,-
+8,PCA_PWM0,F2,00000000,PCA PWM mode auxiliary register 0,,EBS01,EBS00,XCCAP0H1,XCCAP0H0,XCCAP0L1,XCCAP0L0,EPC0H,EPC0L
+8,PCA_PWM1,F3,00000000,PCA PWM mode auxiliary register 1,,EBS11,EBS10,XCCAP1H1,XCCAP1H0,XCCAP1L1,XCCAP1L0,EPC1H,EPC1L
+8,PCA_PWM2,F4,00000000,PCA PWM mode auxiliary register 2,,EBS21,EBS20,XCCAP2H1,XCCAP2H0,XCCAP2L1,XCCAP2L0,EPC2H,EPC2L
+8,PCA_PWM3,F5,00000000,PCA PWM mode auxiliary register 3,,EBS31,EBS30,XCCAP3H1,XCCAP3H0,XCCAP3L1,XCCAP3L0,EPC3H,EPC3L
+8,PWMIF,F6,00000000,PWM interrupt flag,,C7IF,C6IF,C5IF,C4IF,C3IF,C2IF,C1IF,C0IF
+8,PWMFDCR,F7,00000000,PWM exception detection control register,,INVCMP,INVIO,ENFD,FLTFLIO,EFDI,FDCMP,FDIO,FDIF
+8,P7,F8,11111111,Port 7,,,,,,,,,
+8,CH,F9,00000000,PCA base timer high,,,,,,,,,
+8,CCAP0H,FA,00000000,PCA module 0 capture register high,,,,,,,,,
+8,CCAP1H,FB,00000000,PCA module 1 capture register high,,,,,,,,,
+8,CCAP2H,FC,00000000,PCA module 2 capture register high,,,,,,,,,
+8,CCAP3H,FD,00000000,PCA module 3 capture register high,,,,,,,,,
+8,PWMCR,FE,00xxxxxx,PWM control register,,ENPWM,ECBI,-,-,-,-,-,-
+8,RSTCFG,FF,00000000,Reset configuration register,,-,ENLVR,-,P54RST,-,-,LVDS1,LVDS0
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,Symbol,Address,Default,Description,Compatibility,Bit 7,Bit 6,Bit 5,Bit 4,Bit 3,Bit 2,Bit 1,Bit 0
+8,CKSEL,FE00,00000000,Clock selection register,,MCLKODIV3,MCLKODIV2,MCLKODIV1,MCLKODIV0,MCLKO_S,-,MCKSEL1,MCKSEL0
+8,CLKDIV,FE01,00000100,Clock frequency division register,,,,,,,,,
+8,IRC24MCR,FE02,1xxxxxx0,Internal 24MHz RC oscillator control register,,ENIRC24M,-,-,-,-,-,-,IRC24MST
+8,XOSCCR,FE03,00xxxxx0,External oscillator control register,,ENXOSC,XITYPE,-,-,-,-,-,XOSCST
+8,IRC32KCR,FE04,0xxxxxx0,Internal 32kHz oscillator control register,,ENIRC32K,-,-,-,-,-,-,IRC32KST
+,,...,,,,,,,,,,,
+8,P0PU,FE10,00000000,Port 0 pull-up resistor control register,,,,,,,,,
+8,P1PU,FE11,00000000,Port 1 pull-up resistor control register,,,,,,,,,
+8,P2PU,FE12,00000000,Port 2 pull-up resistor control register,,,,,,,,,
+8,P3PU,FE13,00000000,Port 3 pull-up resistor control register,,,,,,,,,
+8,P4PU,FE14,00000000,Port 4 pull-up resistor control register,,,,,,,,,
+8,P5PU,FE15,xx000000,Port 5 pull-up resistor control register,,,,,,,,,
+8,P6PU,FE16,00000000,Port 6 pull-up resistor control register,,,,,,,,,
+8,P7PU,FE17,00000000,Port 7 pull-up resistor control register,,,,,,,,,
+8,P0NCS,FE18,00000000,Port 0 Schmidt trigger control register,,,,,,,,,
+8,P1NCS,FE19,00000000,Port 1 Schmidt trigger control register,,,,,,,,,
+8,P2NCS,FE1A,00000000,Port 2 Schmidt trigger control register,,,,,,,,,
+8,P3NCS,FE1B,00000000,Port 3 Schmidt trigger control register,,,,,,,,,
+8,P4NCS,FE1C,00000000,Port 4 Schmidt trigger control register,,,,,,,,,
+8,P5NCS,FE1D,xx000000,Port 5 Schmidt trigger control register,,,,,,,,,
+8,P6NCS,FE1E,00000000,Port 6 Schmidt trigger control register,,,,,,,,,
+8,P7NCS,FE1F,00000000,Port 7 Schmidt trigger control register,,,,,,,,,
+,,...,,,,,,,,,,,
+8,I2CCFG,FE80,00000000,I2C configuration register,,ENI2C,MSSL,MSSPEED5,MSSPEED4,MSSPEED3,MSSPEED2,MSSPEED1,MSSPEED0
+8,I2CMSCR,FE81,0xxx0000,I2C host control register,,EMSI,-,-,-,MSCMD3,MSCMD2,MSCMD1,MSCMD0
+8,I2CMSST,FE82,00xxxx00,I2C host state register,,MSBUSY,MSIF,-,-,-,-,MSACK1,MSACK0
+8,I2CSLCR,FE83,x0000xx0,I2C slave control register,,-,ESTAI,ERXI,ETXI,ESTOI,-,-,SLRST
+8,I2CSLST,FE84,00000000,I2C slave state register,,SLBUSY,STAIF,RXIF,TXIF,STOIF,TXING,SLACK1,SLACK0
+8,I2CSLADR,FE85,00000000,I2C slave address register,,SLADR6,SLADR5,SLADR4,SLADR3,SLADR2,SLADR1,SLADR0,MA
+8,I2CTXD,FE86,00000000,I2C data transmission register,,,,,,,,,
+8,I2CRXD,FE87,00000000,I2C data receiving register,,,,,,,,,
+8,I2CMSAUX,FE88,00000000,I2C host auxiliary control register,,-,-,-,-,-,-,-,WDTA
+,,...,,,,,,,,,,,
+8,PWM0T1H,FF00,x0000000,PWM0 Timer 1 high,,,,,,,,,
+8,PWM0T1L,FF01,00000000,PWM0 Timer 1 low,,,,,,,,,
+8,PWM0T2H,FF02,x0000000,PWM0 Timer 2 high,,,,,,,,,
+8,PWM0T2L,FF03,00000000,PWM0 Timer 2 low,,,,,,,,,
+8,PWM0CR,FF04,00x00000,PWM0 control register,,ENC0O,C0INI,-,C0_S1,C0_S0,EC0I,EC0T2SI,EC0T1SI
+8,PWM0HLD,FF05,xxxxxx00,PWM0 level hold control register,,-,-,-,-,-,-,HC0H,HC0L
+,,...,,,,,,,,,,,
+8,PWM1T1H,FF10,x0000000,PWM1 Timer 1 high,,,,,,,,,
+8,PWM1T1L,FF11,00000000,PWM1 Timer 1 low,,,,,,,,,
+8,PWM1T2H,FF12,x0000000,PWM1 Timer 2 high,,,,,,,,,
+8,PWM1T2L,FF13,00000000,PWM1 Timer 2 low,,,,,,,,,
+8,PWM1CR,FF14,00x00000,PWM1 control register,,ENC1O,C1INI,-,C1_S1,C1_S0,EC1I,EC1T2SI,EC1T1SI
+8,PWM1HLD,FF15,xxxxxx00,PWM1 level hold control register,,-,-,-,-,-,-,HC1H,HC1L
+,,...,,,,,,,,,,,
+8,PWM2T1H,FF20,x0000000,PWM2 Timer 1 high,,,,,,,,,
+8,PWM2T1L,FF21,00000000,PWM2 Timer 1 low,,,,,,,,,
+8,PWM2T2H,FF22,x0000000,PWM2 Timer 2 high,,,,,,,,,
+8,PWM2T2L,FF23,00000000,PWM2 Timer 2 low,,,,,,,,,
+8,PWM2CR,FF24,xxxx0000,PWM2 control register,,ENC2O,C2INI,-,C2_S1,C2_S0,EC2I,EC2T2SI,EC2T1SI
+8,PWM2HLD,FF25,xxxxxx00,PWM2 level hold control register,,-,-,-,-,-,-,HC2H,HC2L
+,,...,,,,,,,,,,,
+8,PWM3T1H,FF30,x0000000,PWM3 Timer 1 high,,,,,,,,,
+8,PWM3T1L,FF31,00000000,PWM3 Timer 1 low,,,,,,,,,
+8,PWM3T2H,FF32,x0000000,PWM3 Timer 2 high,,,,,,,,,
+8,PWM3T2L,FF33,00000000,PWM3 Timer 2 low,,,,,,,,,
+8,PWM3CR,FF34,xxxx0000,PWM3 control register,,ENC3O,C3INI,-,C3_S1,C3_S0,EC3I,EC3T2SI,EC3T1SI
+8,PWM3HLD,FF35,xxxxxx00,PWM3 level hold control register,,-,-,-,-,-,-,HC3H,HC3L
+,,...,,,,,,,,,,,
+8,PWM4T1H,FF40,x0000000,PWM4 Timer 1 high,,,,,,,,,
+8,PWM4T1L,FF41,00000000,PWM4 Timer 1 low,,,,,,,,,
+8,PWM4T2H,FF42,x0000000,PWM4 Timer 2 high,,,,,,,,,
+8,PWM4T2L,FF43,00000000,PWM4 Timer 2 low,,,,,,,,,
+8,PWM4CR,FF44,xxxx0000,PWM4 control register,,ENC4O,C4INI,-,C4_S1,C4_S0,EC4I,EC4T2SI,EC4T1SI
+8,PWM4HLD,FF45,xxxxxx00,PWM4 level hold control register,,-,-,-,-,-,-,HC4H,HC4L
+,,...,,,,,,,,,,,
+8,PWM5T1H,FF50,x0000000,PWM5 Timer 1 high,,,,,,,,,
+8,PWM5T1L,FF51,00000000,PWM5 Timer 1 low,,,,,,,,,
+8,PWM5T2H,FF52,x0000000,PWM5 Timer 2 high,,,,,,,,,
+8,PWM5T2L,FF53,00000000,PWM5 Timer 2 low,,,,,,,,,
+8,PWM5CR,FF54,xxxx0000,PWM5 control register,,ENC5O,C5INI,-,C5_S1,C5_S0,EC5I,EC5T2SI,EC5T1SI
+8,PWM5HLD,FF55,xxxxxx00,PWM5 level hold control register,,-,-,-,-,-,-,HC5H,HC5L
+,,...,,,,,,,,,,,
+8,PWM6T1H,FF60,x0000000,PWM6 Timer 1 high,,,,,,,,,
+8,PWM6T1L,FF61,00000000,PWM6 Timer 1 low,,,,,,,,,
+8,PWM6T2H,FF62,x0000000,PWM6 Timer 2 high,,,,,,,,,
+8,PWM6T2L,FF63,00000000,PWM6 Timer 2 low,,,,,,,,,
+8,PWM6CR,FF64,xxxx0000,PWM6 control register,,ENC6O,C6INI,-,C6_S1,C6_S0,EC6I,EC6T2SI,EC6T1SI
+8,PWM6HLD,FF65,xxxxxx00,PWM6 level hold control register,,-,-,-,-,-,-,HC6H,HC6L
+,,...,,,,,,,,,,,
+8,PWM7T1H,FF70,x0000000,PWM7 Timer 1 high,,,,,,,,,
+8,PWM7T1L,FF71,00000000,PWM7 Timer 1 low,,,,,,,,,
+8,PWM7T2H,FF72,x0000000,PWM7 Timer 2 high,,,,,,,,,
+8,PWM7T2L,FF73,00000000,PWM7 Timer 2 low,,,,,,,,,
+8,PWM7CR,FF74,xxxx0000,PWM7 control register,,ENC7O,C7INI,-,C7_S1,C7_S0,EC7I,EC7T2SI,EC7T1SI
+8,PWM7HLD,FF75,xxxxxx00,PWM7 level hold control register,,-,-,-,-,-,-,HC7H,HC7L
+,,...,,,,,,,,,,,
+8,PWMCH,FFF0,x0000000,PWM counter high,,,,,,,,,
+8,PWMCL,FFF1,00000000,PWM counter low,,,,,,,,,
+8,PWMCKS,FFF2,xxx00000,PWM clock selection register,,-,-,-,SELT2,PWM_PS3,PWM_PS2,PWM_PS1,PWM_PS0
+8,TADCPH,FFF3,x0000000,ADC counter value high,,,,,,,,,
+8,TADCPL,FFF4,00000000,ADC counter value low,,,,,,,,,
+,,...,,,,,,,,,,,
+,,,,,,,,,,,,,
+V,EXTINT0,03,0,External interrupt 0
+V,TIMER0,0B,1,Timer 0 interrupt
+V,EXTINT1,13,2,External interrupt 1
+V,TIMER1,1B,3,Timer 1 interrupt
+V,UART1,23,4,UART 1 interrupt
+V,ADC,2B,5,ADC interrupt
+V,LVD,33,6,Low-voltage detector interrupt
+V,PCA,3B,7,PCA interrupt
+V,UART2,43,8,UART 2 interrupt
+V,SPI,4B,9,SPI interrupt
+V,EXTINT2,53,10,External interrupt 2 (falling edge only)
+V,EXTINT3,5B,11,External interrupt 3 (falling edge only)
+V,TIMER2,63,12,Timer 2 interrupt
+V,EXTINT4,83,16,External interrupt 4 (falling edge only)
+V,UART3,8B,17,UART 3 interrupt
+V,UART4,93,18,UART 4 interrupt
+V,TIMER3,9B,19,Timer 3 interrupt
+V,TIMER4,A3,20,Timer 4 interrupt
+V,CMP,AB,21,Comparator interrupt
+V,PWM,B3,22,Enhanced PWM interrupt
+V,PWMFD,BB,23,Enhanced PWM fault detection interrupt
+V,I2C,C3,24,I2C interrupt
+,,,,,,,,,,,,,
+#,F_CPU,24000000UL,,,,,,,,,,,
+#,T_CPU,1,,,,,,,,,,,
+I,inline void enableExtendedSFR() { P_SW2 |= EAXSFR; }
+I,inline void disableExtendedSFR() { P_SW2 &= ~EAXSFR; }

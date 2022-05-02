@@ -1,0 +1,36 @@
+generate-header is a Ruby command line utility generating a header for 
+an MCS-51 MCU from a CSV definition file. I created it to be able to 
+use SDCC - headers provided by STC are only compatible with Keil.
+
+The generated header contains register and bit definitions as well as 
+interrupt vectors, bank switching functions and a few useful macros 
+(e.g. F_CPU).
+
+Usage: ./generate-header STC8AF.csv stc8af.h
+
+It comes with a few CSV file examples for the STC8A, STC8F, STC8G, 
+STC8H, STC15, STC16, STC12 and STC90 MCU families.
+
+These files were manually created using information from the STC
+reference manuals of the respective MCU families.
+
+The CSV files are covered by the same copyright notice and license 
+as the code (see the comment at the top of generate-header), i.e. 
+the BSD-2-Clause license.
+
+If present, the license.txt file will be included at the top of each 
+generated header.
+
+Note that there's nothing specific to STC in this code generator. You 
+could use it for any other MCS-x51 MCU provided you create its CSV file.
+
+IMPORTANT
+
+- I had to change the names of a few bit masks to avoid conflicts, 
+which may be the reason why STC's header files are incomplete.
+So if you copy-paste an example and have an undefined symbol, just 
+check its non-conflicting name in the header file.
+
+- I also had to alias the SFR used to control DTPR selection on 
+dual-DPTR MCU, because SDCC always expects a _DPS global symbol 
+for that SFR, regardless of the name chosen by the manufacturer.

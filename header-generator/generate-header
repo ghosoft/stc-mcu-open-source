@@ -1,0 +1,400 @@
+#!/usr/bin/env ruby
+
+# SPDX-License-Identifier: BSD-2-Clause
+# 
+# Copyright (c) 2022 Vincent DEFERT. All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without 
+# modification, are permitted provided that the following conditions 
+# are met:
+# 
+# 1. Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.
+# 
+# 2. Redistributions in binary form must reproduce the above copyright 
+# notice, this list of conditions and the following disclaimer in the 
+# documentation and/or other materials provided with the distribution.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+# FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+# COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+# POSSIBILITY OF SUCH DAMAGE.
+
+require 'csv'
+
+LICENSE_FILE_NAME = 'license.txt'
+
+SFR_TYPE_COLUMN = 0
+SFR_NAME_COLUMN = 1
+SFR_ADDRESS_COLUMN = 2
+SFR_DESCRIPTION_COLUMN = 4
+FILE_COMMENT_COLUMN = 1
+INSERTED_CODE_COLUMN = 1
+
+# SFR bits are described MSB first, so bit 0 is in column 13
+SFR_BIT7_COLUMN = 6
+
+@bitMasks = Hash.new
+@bitRanges = Hash.new
+@sfrDefs = Hash.new
+@lineNumber = 2
+
+def validContent?(cellValue)
+	if not cellValue
+		return false
+	end
+	
+	v = cellValue.strip
+	
+	v.length > 1 or (v.length == 1 and '-01xX'.index(v) == nil)
+end
+
+def validAddress?(cellValue)
+	if not cellValue
+		return false
+	end
+	
+	cellValue.strip =~ /^[[:xdigit:]]+$/
+end
+
+def externalAddress?(sfrAddress)
+	sfrAddress.length > 4
+end
+
+def bitAddressable?(sfrAddress)
+	# sfrAddress format is 0x[NN]NN
+	sfrAddress.length <= 4 and (sfrAddress[-1] == '0' or sfrAddress[-1] == '8')
+end
+
+def makeSymbol(s)
+	if s != nil
+		return s.strip.gsub(/[^[:alnum:]]/, '_')
+	end
+	
+	return ''
+end
+
+def toColumnIndex(bitWeight)
+	SFR_BIT7_COLUMN + (7 - bitWeight)
+end
+
+def nextColumn(colNum)
+	colNum - 1
+end
+
+def printError(message)
+	STDERR.puts 'ERROR: line ' + @lineNumber.to_s + ', ' + message
+end
+
+def handleSfrDeclaration(outputFile, sfrName, sfrAddress, sfrType)
+	existingSfr = @sfrDefs[sfrName]
+	
+	if not existingSfr
+		@sfrDefs[sfrName] = sfrAddress
+		
+		if sfrType == '32'
+			outputFile.puts 'SFR32E(' + sfrName + ', ' + sfrAddress + ');'
+		else
+			if externalAddress?(sfrAddress)
+				if sfrType == '16'
+					outputFile.puts 'SFR16LEX(' + sfrName + ', ' + sfrAddress + ');'
+				else
+					outputFile.puts 'SFRX(' + sfrName + ', ' + sfrAddress + ');'
+				end
+			else
+				if sfrType == '16'
+					outputFile.puts 'SFR16E(' + sfrName + ', ' + sfrAddress + ');'
+				else
+					outputFile.puts 'SFR(' + sfrName + ', ' + sfrAddress + ');'
+				end
+			end
+		end
+	elsif existingSfr != sfrAddress
+		printError('redefinition of SFR ' + sfrName + ' with a different address (new: ' + sfrAddress + ', old: ' + existingSfr + ')')
+	end
+end
+
+def handleBitDefine(outputFile, sfrName, sfrAddress, bitName, bitWeight)
+	if bitAddressable?(sfrAddress)
+		outputFile.puts 'SBIT(' + bitName + ', ' + sfrAddress + ', ' + bitWeight.to_s + ');'
+	else
+		setMask = '0x' + (1 << bitWeight).to_s(16)
+		existingDefinition = @bitMasks[bitName]
+		
+		if not existingDefinition
+			@bitMasks[bitName] = setMask
+			outputFile.puts '#define ' + bitName + ' ' + setMask
+		elsif existingDefinition != setMask
+			printError('redefinition of bit mask ' + bitName + ' with a different value (new: ' + setMask + ', old: ' + existingDefinition + ')')
+		end
+	end
+end
+
+def handleBitAccess(outputFile, sfrName, bitName, bitWeight)
+	setMask = '0x' + (1 << bitWeight).to_s(16)
+	clrMask = '0x' + (255 - (1 << bitWeight)).to_s(16)
+	outputFile.puts ''
+	outputFile.puts 'inline unsigned char test' + bitName + '() { return ' + sfrName + ' & ' + setMask + '; }'
+	outputFile.puts 'inline void set' + bitName + '(unsigned char value) { if (value) { ' + sfrName + ' |= ' +  setMask + '; } else { ' + sfrName + ' &= ' + clrMask + '; } }'
+	outputFile.puts 'inline void raise' + bitName + '() { ' + sfrName + ' |= ' + setMask + '; }'
+	outputFile.puts 'inline void clear' + bitName + '() { ' + sfrName + ' &= ' + clrMask + '; }'
+	outputFile.puts 'inline void toggle' + bitName + '() { if (' + sfrName + ' & ' + setMask + ') { ' + sfrName + ' &= ' + clrMask + '; } else { ' + sfrName + ' |= ' +  setMask + '; } }'
+end
+
+def handleBitRange(outputFile, sfrName, rangeAccessors, bitWeight, rangeName, rangeStart)
+	if rangeAccessors and not rangeName.end_with?('_')
+		maskStr = ''
+		n = bitWeight - 1
+		
+		while n >= rangeStart
+			maskStr = maskStr + '1'
+			n -= 1
+		end
+		
+		bitMask = maskStr.to_i(2) << rangeStart
+		setMask = '0x' + bitMask.to_s(16)
+		clrMask = '0x' + (255 - bitMask).to_s(16)
+		shiftPos = rangeStart.to_s
+		existingDefinition = @bitRanges[rangeName]
+		
+		if not existingDefinition
+			@bitRanges[rangeName] = setMask
+			outputFile.puts ''
+			outputFile.puts 'inline unsigned char get' + rangeName + '() { return (' + sfrName + ' & ' + setMask + ') >> ' + shiftPos + '; }'
+			outputFile.puts 'inline void set' + rangeName + '(unsigned char value) { ' + sfrName + ' = (' + sfrName + ' & ' + clrMask + ') | ((value << ' + shiftPos + ') & ' + setMask + '); }'
+		elsif existingDefinition != setMask
+			printError('redefinition of bit range ' + rangeName + ' with a different value (new: ' + setMask + ', old: ' + existingDefinition + ')')
+		end
+	end
+end
+
+def generateDefinitions(outputFile, inputRow, sfrType, bitAccessors = false, rangeAccessors = false)
+	sfrName = makeSymbol(inputRow[SFR_NAME_COLUMN])
+	sfrDescription = inputRow[SFR_DESCRIPTION_COLUMN]
+	
+	if sfrDescription != nil
+		sfrDescription = sfrDescription.strip
+	else
+		sfrDescription = ''
+	end
+	
+	sfrAddress = inputRow[SFR_ADDRESS_COLUMN].strip
+	
+	if sfrAddress.end_with?('H')
+		sfrAddress = '0x' + sfrAddress[0...-1]
+	elsif sfrAddress.start_with?('0X')
+		sfrAddress[1] = 'x'
+	else
+		sfrAddress = '0x' + sfrAddress
+	end
+	
+	# Generate register definition
+	outputFile.puts ''
+	outputFile.puts '// SFR ' + sfrName + ': ' + sfrDescription
+	
+	handleSfrDeclaration(outputFile, sfrName, sfrAddress, sfrType)
+	
+	if sfrType == '8'
+		# Generate bit definitions
+		(0..7).each do | bitWeight |
+			colNum = toColumnIndex(bitWeight)
+			
+			if validContent?(inputRow[colNum])
+				bitName = makeSymbol(inputRow[colNum])
+				handleBitDefine(outputFile, sfrName, sfrAddress, bitName, bitWeight)
+			end
+		end
+		
+		if bitAccessors or rangeAccessors
+			# Generate bit and bit range accessors
+			bitRangeStart = false
+			rangeName = nil
+			rangeStart = 0
+			
+			(0..7).each do | bitWeight |
+				colNum = toColumnIndex(bitWeight)
+				
+				if validContent?(inputRow[colNum])
+					bitName = makeSymbol(inputRow[colNum])
+					
+					if bitRangeStart
+						if bitName.length != (rangeName.length + 1) or bitName[0, rangeName.length] != rangeName or bitName[rangeName.length].to_i != (bitWeight - rangeStart)
+							handleBitRange(outputFile, sfrName, rangeAccessors, bitWeight, rangeName, rangeStart)
+							bitRangeStart = false
+						end
+					end
+					
+					if not bitRangeStart
+						if bitWeight < 7
+							nextBitName = makeSymbol(inputRow[nextColumn(colNum)])
+							
+							if bitName[-1] == '0' and bitName[0...-1] = nextBitName[0...-1] and nextBitName[-1] == '1'
+								rangeStart = bitWeight
+								rangeName = bitName[0...-1]
+								bitRangeStart = true
+							end
+						end
+					end
+					
+					if bitAccessors and not (bitRangeStart or bitAddressable?(sfrAddress))
+						handleBitAccess(outputFile, sfrName, bitName, bitWeight)
+					end
+				elsif bitRangeStart
+					handleBitRange(outputFile, sfrName, rangeAccessors, bitWeight, rangeName, rangeStart)
+					bitRangeStart = false
+				end
+			end
+		end
+	end
+end
+
+def generateDefaultMacroValue(outputFile, inputRow)
+	macroName = inputRow[SFR_NAME_COLUMN].strip
+	macroDefault = inputRow[SFR_ADDRESS_COLUMN]
+	sampleValue = inputRow[SFR_ADDRESS_COLUMN + 1]
+	
+	outputFile.puts ''
+	outputFile.puts '// Default value for macro ' + macroName
+	outputFile.puts '#ifndef ' + macroName
+	
+	if macroDefault
+		outputFile.puts '#define ' + macroName + ' ' + macroDefault.strip
+	else
+		message = '#error "The ' + macroName + ' macro *MUST* be defined'
+		
+		if sampleValue
+			message += ' (e.g. -D' + macroName + '=' +  sampleValue.strip + ')'
+		end
+		
+		message += '"'
+		outputFile.puts message
+	end
+	
+	outputFile.puts '#endif'
+end
+
+def generateInterruptVector(outputFile, inputRow)
+	vectorName = inputRow[SFR_NAME_COLUMN].strip
+	vectorAddress = inputRow[SFR_ADDRESS_COLUMN].strip
+	vectorIndex = inputRow[SFR_ADDRESS_COLUMN + 1]
+	description = inputRow[SFR_DESCRIPTION_COLUMN]
+	
+	outputFile.puts '// ' + description
+	outputFile.puts '#define ' + vectorName + '_INTERRUPT' + ' ' + vectorIndex
+	outputFile.puts '#define ' + vectorName + '_VECTOR_ADDR' + ' 0x' + vectorAddress
+end
+
+def generateComment(outputFile, inputRow, wasInsideComment)
+	if not wasInsideComment
+		outputFile.puts ''
+		outputFile.puts '/**'
+	end
+	
+	commentText = ' * '
+	
+	if inputRow[FILE_COMMENT_COLUMN] != nil
+		commentText += inputRow[FILE_COMMENT_COLUMN]
+	end
+	
+	outputFile.puts commentText
+end
+
+def closeComment(outputFile)
+	outputFile.puts '*/'
+end
+
+def insertCode(outputFile, inputRow, wasInserting)
+	if not wasInserting
+		outputFile.puts ''
+	end
+	
+	if inputRow[INSERTED_CODE_COLUMN] != nil
+		outputFile.puts inputRow[INSERTED_CODE_COLUMN]
+	end
+end
+
+def insertLicense(outputFile, licenseFileName)
+	if File.exist?(licenseFileName) and File.readable?(licenseFileName) then
+		outputFile.puts '/*'
+		
+		File.readlines(licenseFileName).each do | line |
+			outputFile.puts ' * ' + line
+		end
+		
+		outputFile.puts ' */'
+		outputFile.puts ''
+	end
+end
+
+def insertDoxygenComment(outputFile, inputFileName, outputFileName)
+	outputFile.puts '/**'
+	outputFile.puts ' * @file ' + File.basename(outputFileName)
+	outputFile.puts ' * '
+	outputFile.puts ' * Register, bit and macro definitions for the ' + File.basename(inputFileName, '.csv')
+	outputFile.puts ' */'
+	outputFile.puts ''
+end
+
+if ARGV.length == 2 then
+	inputFileName = ARGV[0]
+	outputFileName = ARGV[1]
+	
+	inputTable = CSV.parse(File.read(inputFileName), headers: true)
+	
+	outputHeader = File.new(outputFileName, "w")
+	
+	insertLicense(outputHeader, LICENSE_FILE_NAME)
+	
+	insertDoxygenComment(outputHeader, inputFileName, outputFileName)
+	
+	outputDefine = '_' + makeSymbol(outputFileName).upcase
+	outputHeader.puts '#ifndef ' + outputDefine
+	outputHeader.puts '#define ' + outputDefine
+	outputHeader.puts ''
+	outputHeader.puts '#include <compiler.h>'
+	
+	insideComment = false
+	isInserting = false
+	
+	inputTable.each do | row |
+		wasInsideComment = insideComment
+		insideComment = false
+		wasInserting = isInserting
+		isInserting = false
+		
+		case row[SFR_TYPE_COLUMN]
+		when '#'
+			generateDefaultMacroValue(outputHeader, row)
+		when 'I'
+			insertCode(outputHeader, row, wasInserting)
+			isInserting = true
+		when 'C', 'c'
+			generateComment(outputHeader, row, wasInsideComment)
+			insideComment = true
+		when '8', '16', '32'
+			generateDefinitions(outputHeader, row, row[SFR_TYPE_COLUMN])
+		when 'V'
+			generateInterruptVector(outputHeader, row)
+		end
+		
+		if wasInsideComment and not insideComment
+			closeComment(outputHeader)
+		end
+		
+		@lineNumber += 1
+	end
+
+	outputHeader.puts ''
+	outputHeader.puts '#endif // ' + outputDefine
+	outputHeader.close
+else
+	print "Usage: generate-header <CSV input file> <C header output file>"
+end

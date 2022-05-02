@@ -1,0 +1,577 @@
+,Symbol,Address,Default,Description,,Bit 7,Bit 6,Bit 5,Bit 4,Bit 3,Bit 2,Bit 1,Bit 0
+,,,,,,,,,,,,,
+C,This file can be used with the following parts with some limitations:
+C,
+C,+-------------------+-----+------+-----+-----+-------+------+--------+------------+
+C,| Part              | ADC | Comp | PCA | PWM | MDU16 | UART | Timers | GPIO Ports |
+C,+-------------------+-----+------+-----+-----+-------+------+--------+------------+
+C,| STC8G2K64S4       | yes | yes  | yes | 6x8 | yes   | 4    | 5      | 6          |
+C,| STC8G2K64S2       | yes | yes  | yes | 1x8 | yes   | 2    | 5      | 6          |
+C,| STC8G1K08   8-pin | no  | no   | no  | no  | yes   | 1    | 2      | 2 (3/5)    |
+C,| STC8G1K08A        | yes | no   | yes | no  | yes   | 1    | 2      | 2 (3/5)    |
+C,| STC8G1K08 > 8-pin | yes | yes  | yes | no  | no    | 2    | 3      | 3 (1/3/5)  |
+C,+-------------------+-----+------+-----+-----+-------+------+--------+------------+
+,,,,,,,,,,,,,
+8,P0,80,11111111,Port 0,,P0.7,P0.6,P0.5,P0.4,P0.3,P0.2,P0.1,P0.0
+8,SP,81,00000111,Stack Pointer,,,,,,,,,
+8,DPL,82,00000000,Data Pointer (DPTR) low,,,,,,,,,
+8,DPH,83,00000000,Data Pointer (DPTR) high,,,,,,,,,
+8,S4CON,84,00000000,,,S4SM0,S4ST4,S4SM2,S4REN,S4TB8,S4RB8,S4TI,S4RI
+8,S4BUF,85,00000000,,,,,,,,,,
+,,86,,,,,,,,,,,
+8,PCON,87,00110000,Power control,,SMOD,SMOD0,LVDF,POF,GF1,GF0,PD,IDL
+8,TCON,88,00000000,Timer control,,TF1,TR1,TF0,TR0,IE1,IT1,IE0,IT0
+8,TMOD,89,00000000,Timer mode,,T1_GATE,T1_C/T,T1_M1,T1_M0,T0_GATE,T0_C/T,T0_M1,T0_M0
+8,TL0,8A,00000000,Timer 0 low,,,,,,,,,
+8,TL1,8B,00000000,Timer 1 low,,,,,,,,,
+8,TH0,8C,00000000,Timer 0 high,,,,,,,,,
+8,TH1,8D,00000000,Timer 1 high,,,,,,,,,
+8,AUXR,8E,00000001,Auxiliary register,,T0x12,T1x12,UART_M0x6,T2R,T2_C/T,T2x12,EXTRAM,S1ST2
+8,INTCLKO,8F,x000x000,CLK_Output and external interrupt enable register,,-,EX4,EX3,EX2,-,T2CLKO,T1CLKO,T0CLKO
+8,P1,90,11111111,Port 1,,P1.7,P1.6,P1.5,P1.4,P1.3,P1.2,P1.1,P1.0
+8,P1M1,91,11111111,Port 1 Configuration 1,,,,,,,,,
+8,P1M0,92,00000000,Port 1 Configuration 0,,,,,,,,,
+8,P0M1,93,11111111,Port 0 Configuration 1,,,,,,,,,
+8,P0M0,94,00000000,Port 0 Configuration 0,,,,,,,,,
+8,P2M1,95,11111111,Port 2 Configuration 1,,,,,,,,,
+8,P2M0,96,00000000,Port 2 Configuration 0,,,,,,,,,
+,,97,,,,,,,,,,,
+8,SCON,98,00000000,Serial control,,SM0/FE,SM1,SM2,REN,TB8,RB8,TI,RI
+8,SBUF,99,00000000,Serial buffer,,,,,,,,,
+8,S2CON,9A,0x000000,S2 serial control,,S2SM0,-,S2SM2,S2REN,S2TB8,S2RB8,S2TI,S2RI
+8,S2BUF,9B,00000000,S2 serial buffer,,,,,,,,,
+,,9C,,,,,,,,,,,
+8,IRCBAND,9D,xxxxxxxn,IRC band selection detection,,-,-,-,-,-,-,-,BANDSEL
+8,LIRTRIM,9E,xxxxxxnn,IRC frequency trim register,,-,-,-,-,-,-,LIRTRIM1,LIRTRIM0
+8,IRTRIM,9F,nnnnnnnn,IRC frequency adjustment register,,,,,,,,,
+8,P2,A0,11111111,Port 2,,P2.7,P2.6,P2.5,P2.4,P2.3,P2.2,P2.1,P2.0
+,,A1,,,,,,,,,,,
+8,P_SW1,A2,nn00000x,Auxiliary register 1,,S1_S1,S1_S0,CCP_S1,CCP_S0,SPI_S1,SPI_S0,0,-
+,,A3,,,,,,,,,,,
+,,A4,,,,,,,,,,,
+,,A5,,,,,,,,,,,
+,,A6,,,,,,,,,,,
+,,A7,,,,,,,,,,,
+8,IE,A8,00000000,Interrupt enable,,EA,ELVD,EADC,ES,ET1,EX1,ET0,EX0
+8,SADDR,A9,00000000,Slave address,,,,,,,,,
+8,WKTCL,AA,11111111,Power-down wake-up timer control register low,,,,,,,,,
+8,WKTCH,AB,01111111,Power-down wake-up timer control register high,,WKTEN,,,,,,,
+8,S3CON,AC,00000000,S3 serial control,,S3SM0,S3ST3,S3SM2,S3REN,S3TB8,S3RB8,S3TI,S3RI
+8,S3BUF,AD,00000000,S3 serial buffer,,,,,,,,,
+8,TA,AE,00000000,DPTR timing control register,,,,,,,,,
+8,IE2,AF,x0000000,Interrupt enable 2,,-,ET4,ET3,ES4,ES3,ET2,ESPI,ES2
+8,P3,B0,11111111,Port 3,,P3.7,P3.6,P3.5,P3.4,P3.3,P3.2,P3.1,P3.0
+8,P3M1,B1,11111100,Port 3 configuration 1,,,,,,,,,
+8,P3M0,B2,00000000,Port 3 configuration 0,,,,,,,,,
+8,P4M1,B3,11111111,Port 4 configuration 1,,,,,,,,,
+8,P4M0,B4,00000000,Port 4 configuration 0,,,,,,,,,
+8,IP2,B5,00000000,Interrupt priority register 2 low,,PPWM2FD,PI2C,PCMP,PX4,PPWM0FD,PPWM0,PSPI,PS2
+8,IP2H,B6,00000000,Interrupt priority register 2 high,,PPWM2FDH,PI2CH,PCMPH,PX4H,PPWM0FDH,PPWM0H,PSPIH,PS2H
+8,IPH,B7,00000000,Interrupt priority register high,,PPCAH,PLVDH,PADCH,PSH,PT1H,PX1H,PT0H,PX0H
+8,IP,B8,00000000,Interrupt priority register low,,PPCA,PLVD,PADC,PS,PT1,PX1,PT0,PX0
+8,SADEN,B9,00000000,Slave address mask,,,,,,,,,
+8,P_SW2,BA,0x000000,Peripheral function switch register 2,,EAXSFR,-,I2C_S1,I2C_S0,CMPO_S,S4_S,S3_S,S2_S
+,,BB,,,,,,,,,,,
+8,ADC_CONTR,BC,00000000,ADC control,,ADC_POWER,ADC_START,ADC_FLAG,ADC_EPWMT,ADC_CHS3,ADC_CHS2,ADC_CHS1,ADC_CHS0
+8,ADC_RES,BD,00000000,ADC result,,,,,,,,,
+8,ADC_RESL,BE,00000000,ADC result low,,,,,,,,,
+,,BF,,,,,,,,,,,
+8,P4,C0,11111111,Port 4,,-,-,-,P4.4,P4.3,P4.2,P4.1,P4.0
+8,WDT_CONTR,C1,0x00000,Watchdog timer control,,WDT_FLAG,-,EN_WDT,CLR_WDT,IDL_WDT,WDT_PS2,WDT_PS1,WDT_PS0
+8,IAP_DATA,C2,11111111,ISP/IAP flash data register,,,,,,,,,
+8,IAP_ADDRH,C3,00000000,ISP/IAP flash address high,,,,,,,,,
+8,IAP_ADDRL,C4,00000000,ISP/IAP flash address low,,,,,,,,,
+8,IAP_CMD,C5,xxxxxx00,ISP/IAP flash command register,,-,-,-,-,-,-,CMD1,CMD0
+8,IAP_TRIG,C6,xxxxxxxx,ISP/IAP flash trigger register,,,,,,,,,
+8,IAP_CONTR,C7,0000x000,ISP/IAP flash control register,,IAPEN,SWBS,SWRST,CMD_FAIL,-,IAP_WT2,IAP_WT1,IAP_WT0
+8,P5,C8,xx111111,Port 5,,-,-,P5.5,P5.4,P5.3,P5.2,P5.1,P5.0
+8,P5M1,C9,xx111111,Port 5 configuration 1,,,,,,,,,
+8,P5M0,CA,xx000000,Port 5 configuration 0,,,,,,,,,
+,,CB,,,,,,,,,,,
+,,CC,,,,,,,,,,,
+8,SPSTAT,CD,00xxxxxx,SPI status register,,SPIF,WCOL,-,-,-,-,-,-
+8,SPCTL,CE,00000100,SPI control register,,SSIG,SPEN,DORD,MSTR,CPOL,CPHA,SPR1,SPR0
+8,SPDAT,CF,00000000,SPI data register,,,,,,,,,
+8,PSW,D0,000000x0,Program status word,,CY,AC,F0,RS1,RS0,OV,-,P
+8,T4T3M,D1,00000000,T4 and T3 mode register,,T4R,T4_C/T,T4x12,T4CLKO,T3R,T3_C/T,T3x12,T3CLKO
+8,T4H,D2,00000000,Timer 4 high,,,,,,,,,
+8,T4L,D3,00000000,Timer 4 low,,,,,,,,,
+8,T3H,D4,00000000,Timer 3 high,,,,,,,,,
+8,T3L,D5,00000000,Timer 3 low,,,,,,,,,
+8,T2H,D6,00000000,Timer 2 high,,,,,,,,,
+8,T2L,D7,00000000,Timer 2 low,,,,,,,,,
+8,CCON,D8,00xxx000,PCA control register,,CF,CR,-,-,-,CCF2,CCF1,CCF0
+8,CMOD,D9,00xx0000,PCA mode register,,CIDL,-,-,-,CPS2,CPS1,CPS0,ECF
+8,CCAPM0,DA,x0000000,PCA module 0 mode register,,-,ECOM0,CAPP0,CAPN0,MAT0,TOG0,PWM0,EECF0
+8,CCAPM1,DB,x0000000,PCA module 1 mode register,,-,ECOM1,CAPP1,CAPN1,MAT1,TOG1,PWM1,EECF1
+8,CCAPM2,DC,x0000000,PCA module 2 mode register,,-,ECOM2,CAPP2,CAPN2,MAT2,TOG2,PWM2,EECF2
+,,DD,,,,,,,,,,,
+8,ADCCFG,DE,xx0x0000,ADC configuration register,,-,-,RESFMT,-,ADC_SPEED3,ADC_SPEED2,ADC_SPEED1,ADC_SPEED0
+8,IP3,DF,00000000,Interrupt priority register 3 low,,PPWM4FD,PPWM5,PPWM4,PPWM3,PPWM2,PPWM1,PS4,PS3
+8,ACC,E0,00000000,Accumulator,,,,,,,,,
+,,E1,,,,,,,,,,,
+,,E2,,,,,,,,,,,
+8,DPS,E3,00000xx0,Data Pointer selector,,ID1,ID0,TSL,AU1,AU0,-,-,DPSEL
+8,DPL1,E4,00000000,Second data pointer low,,,,,,,,,
+8,DPH1,E5,00000000,Second data pointer high,,,,,,,,,
+8,CMPCR1,E6,00000000,Comparator control register 1,,CMPEN,CMPIF,PIE,NIE,PIS,NIS,CMPOE,CMPRES
+8,CMPCR2,E7,00000000,Comparator control register 2,,INVCMPO,DISFLT,LCDTY5,LCDTY4,LCDTY3,LCDTY2,LCDTY1,LCDTY0
+,,E8,,,,,,,,,,,
+8,CL,E9,00000000,PCA base timer low,,,,,,,,,
+8,CCAP0L,EA,00000000,PCA module 0 capture register low,,,,,,,,,
+8,CCAP1L,EB,00000000,PCA module 1 capture register low,,,,,,,,,
+8,CCAP2L,EC,00000000,PCA module 2 capture register low,,,,,,,,,
+,,ED,,,,,,,,,,,
+8,IP3H,EE,00000000,Interrupt priority register 3 high,,PPWM4FDH,PPWM5H,PPWM4H,PPWM3H,PPWM2H,PPWM1H,PS4H,PS3H
+8,AUXINTIF,EF,x000xxx0,Extended external interrupt flag register,,-,INT4IF,INT3IF,INT2IF,-,-,-,T2IF
+8,B,F0,00000000,B register,,,,,,,,,
+8,PWMSET,F1,00000000,PWM set register,,ENGLBSET,PWMRST,ENPWM5,ENPWM4,ENPWM3,ENPWM2,ENPWM1,ENPWM0
+8,PCA_PWM0,F2,00000000,PCA PWM mode auxiliary register 0,,EBS01,EBS00,XCCAP0H1,XCCAP0H0,XCCAP0L1,XCCAP0L0,EPC0H,EPC0L
+8,PCA_PWM1,F3,00000000,PCA PWM mode auxiliary register 1,,EBS11,EBS10,XCCAP1H1,XCCAP1H0,XCCAP1L1,XCCAP1L0,EPC1H,EPC1L
+8,PCA_PWM2,F4,00000000,PCA PWM mode auxiliary register 2,,EBS21,EBS20,XCCAP2H1,XCCAP2H0,XCCAP2L1,XCCAP2L0,EPC2H,EPC2L
+8,IAP_TPS,F5,xx000000,IAP waiting time control register,,,,,,,,,
+8,PWMCFG01,F6,00000000,PWM 0 & 1 configuration register,,PWM1CBIF,EPWM1CBI,FLTPS0,PWM1CEN,PWM0CBIF,EPWM0CBI,ENPWM0TA,PWM0CEN
+8,PWMCFG23,F7,00000000,PWM 2 & 3 configuration register,,PWM3CBIF,EPWM3CBI,FLTPS1,PWM3CEN,PWM2CBIF,EPWM2CBI,ENPWM2TA,PWM2CEN
+,,F8,,,,,,,,,,,
+8,CH,F9,00000000,PCA base timer high,,,,,,,,,
+8,CCAP0H,FA,00000000,PCA module 0 capture register high,,,,,,,,,
+8,CCAP1H,FB,00000000,PCA module 1 capture register high,,,,,,,,,
+8,CCAP2H,FC,00000000,PCA module 2 capture register high,,,,,,,,,
+,,FD,,,,,,,,,,,
+8,PWMCFG45,FE,00000000,PWM 4 & 5 configuration register,,PWM5CBIF,EPWM5CBI,FLTPS2,PWM5CEN,PWM4CBIF,EPWM4CBI,ENPWM4TA,PWM4CEN
+8,RSTCFG,FF,00000000,Reset configuration register,,-,ENLVR,-,P54RST,-,-,LVDS1,LVDS0
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,Symbol,Address,Default,Description,Compatibility,Bit 7,Bit 6,Bit 5,Bit 4,Bit 3,Bit 2,Bit 1,Bit 0
+8,CKSEL,FE00,xxxxxx00,Clock selection register,,-,-,-,-,-,-,MCKSEL1,MCKSEL0
+8,CLKDIV,FE01,nnnnnnnn,Clock frequency division register,,,,,,,,,
+8,HIRCCR,FE02,1xxxxxx0,Internal high-speed RC oscillator control register,,ENHIRC,-,-,-,-,-,-,HIRCST
+8,XOSCCR,FE03,00xxxxx0,External oscillator control register,,ENXOSC,XITYPE,-,-,-,-,-,XOSCST
+8,IRC32KCR,FE04,0xxxxxx0,Internal 32kHz oscillator control register,,ENIRC32K,-,-,-,-,-,-,IRC32KST
+8,MCLKOCR,FE05,00000000,Main clock output control register,,MCLKO_S,MCLKODIV6,MCLKODIV5,MCLKODIV4,MCLKODIV3,MCLKODIV2,MCLKODIV1,MCLKODIV0
+8,IRCDB,FE06,10000000,Internal high-speed oscillator debounce control,,,,,,,,,
+,,...,,,,,,,,,,,
+8,P0PU,FE10,00000000,Port 0 pull-up resistor control register,,,,,,,,,
+8,P1PU,FE11,00000000,Port 1 pull-up resistor control register,,,,,,,,,
+8,P2PU,FE12,00000000,Port 2 pull-up resistor control register,,,,,,,,,
+8,P3PU,FE13,00000000,Port 3 pull-up resistor control register,,,,,,,,,
+8,P4PU,FE14,00000000,Port 4 pull-up resistor control register,,,,,,,,,
+8,P5PU,FE15,xx000000,Port 5 pull-up resistor control register,,,,,,,,,
+8,P0NCS,FE18,00000000,Port 0 Schmidt trigger control register,,,,,,,,,
+8,P1NCS,FE19,00000000,Port 1 Schmidt trigger control register,,,,,,,,,
+8,P2NCS,FE1A,00000000,Port 2 Schmidt trigger control register,,,,,,,,,
+8,P3NCS,FE1B,00000000,Port 3 Schmidt trigger control register,,,,,,,,,
+8,P4NCS,FE1C,00000000,Port 4 Schmidt trigger control register,,,,,,,,,
+8,P5NCS,FE1D,xx000000,Port 5 Schmidt trigger control register,,,,,,,,,
+8,P0SR,FE20,11111111,Port 0 level transition rate register,,,,,,,,,
+8,P1SR,FE21,11111111,Port 1 level transition rate register,,,,,,,,,
+8,P2SR,FE22,11111111,Port 2 level transition rate register,,,,,,,,,
+8,P3SR,FE23,11111111,Port 3 level transition rate register,,,,,,,,,
+8,P4SR,FE24,11111111,Port 4 level transition rate register,,,,,,,,,
+8,P5SR,FE25,xx111111,Port 5 level transition rate register,,,,,,,,,
+8,P0DR,FE28,11111111,Port 0 drive current control register,,,,,,,,,
+8,P1DR,FE29,11111111,Port 1 drive current control register,,,,,,,,,
+8,P2DR,FE2A,11111111,Port 2 drive current control register,,,,,,,,,
+8,P3DR,FE2B,11111111,Port 3 drive current control register,,,,,,,,,
+8,P4DR,FE2C,11111111,Port 4 drive current control register,,,,,,,,,
+8,P5DR,FE2D,xx111111,Port 5 drive current control register,,,,,,,,,
+8,P0IE,FE30,11111111,Port 0 input enable control register,,,,,,,,,
+8,P1IE,FE31,11111111,Port 1 input enable control register,,,,,,,,,
+,,...,,,,,,,,,,,
+8,I2CCFG,FE80,00000000,I2C configuration register,,ENI2C,MSSL,MSSPEED5,MSSPEED4,MSSPEED3,MSSPEED2,MSSPEED1,MSSPEED0
+8,I2CMSCR,FE81,0xxx0000,I2C host control register,,EMSI,-,-,-,MSCMD3,MSCMD2,MSCMD1,MSCMD0
+8,I2CMSST,FE82,00xxxx00,I2C host state register,,MSBUSY,MSIF,-,-,-,-,MSACK1,MSACK0
+8,I2CSLCR,FE83,x0000xx0,I2C slave control register,,-,ESTAI,ERXI,ETXI,ESTOI,-,-,SLRST
+8,I2CSLST,FE84,00000000,I2C slave state register,,SLBUSY,STAIF,RXIF,TXIF,STOIF,TXING,SLACK1,SLACK0
+8,I2CSLADR,FE85,00000000,I2C slave address register,,SLADR6,SLADR5,SLADR4,SLADR3,SLADR2,SLADR1,SLADR0,MA
+8,I2CTXD,FE86,00000000,I2C data transmission register,,,,,,,,,
+8,I2CRXD,FE87,00000000,I2C data receiving register,,,,,,,,,
+8,I2CMSAUX,FE88,00000000,I2C host auxiliary control register,,-,-,-,-,-,-,-,WDTA
+,,...,,,,,,,,,,,
+8,TM2PS,FEA2,00000000,Timer 2 clock prescaler register,,,,,,,,,
+8,TM3PS,FEA3,00000000,Timer 3 clock prescaler register,,,,,,,,,
+8,TM4PS,FEA4,00000000,Timer 4 clock prescaler register,,,,,,,,,
+,,...,,,,,,,,,,,
+8,ADCTIM,FEA8,00101010,ADC timing control register,,CSSETUP,CSHOLD1,CSHOLD0,SMPDUTY4,SMPDUTY3,SMPDUTY2,SMPDUTY1,SMPDUTY0
+,,...,,,,,,,,,,,
+8,PWM0CH,FF00,x0000000,PWM0 counter high,,-,,,,,,,
+8,PWM0CL,FF01,00000000,PWM0 counter low,,,,,,,,,
+8,PWM0CKS,FF02,xxx00000,PWM0 clock select register,,-,-,-,SELT2,PWM_PS3,PWM_PS2,PWM_PS1,PWM_PS0
+8,PWM0TADCH,FF03,x0000000,PWM0 PWM0 trigger ADC counter high,,-,,,,,,,
+8,PWM0TADCL,FF04,00000000,PWM0 PWM0 trigger ADC counter low,,,,,,,,,
+8,PWM0IF,FF05,00000000,PWM0 interrupt flag register,,C7IF,C6IF,C5IF,C4IF,C3IF,C2IF,C1IF,C0IF
+8,PWM0FDCR,FF06,00000000,PWM0 fault detection control register,,INVCMP,INVIO,ENFD,FLTFLIO,EFDI,FDCMP,FDIO,FDIF
+8,PWM00T1H,FF10,x0000000,PWM00 Timer 1 high,,-,,,,,,,
+8,PWM00T1L,FF11,00000000,PWM00 Timer 1 low,,,,,,,,,
+8,PWM00T2H,FF12,x0000000,PWM00 Timer 2 high,,,,,,,,,
+8,PWM00T2L,FF13,00000000,PWM00 Timer 2 low,,,,,,,,,
+8,PWM00CR,FF14,00xxx000,PWM00 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM00HLD,FF15,xxxxxx00,PWM00 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM01T1H,FF18,x0000000,PWM01 Timer 1 high,,-,,,,,,,
+8,PWM01T1L,FF19,00000000,PWM01 Timer 1 low,,,,,,,,,
+8,PWM01T2H,FF1A,x0000000,PWM01 Timer 2 high,,,,,,,,,
+8,PWM01T2L,FF1B,00000000,PWM01 Timer 2 low,,,,,,,,,
+8,PWM01CR,FF1C,00xxx000,PWM01 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM01HLD,FF1D,xxxxxx00,PWM01 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM02T1H,FF20,x0000000,PWM02 Timer 1 high,,-,,,,,,,
+8,PWM02T1L,FF21,00000000,PWM02 Timer 1 low,,,,,,,,,
+8,PWM02T2H,FF22,x0000000,PWM02 Timer 2 high,,,,,,,,,
+8,PWM02T2L,FF23,00000000,PWM02 Timer 2 low,,,,,,,,,
+8,PWM02CR,FF24,00xxx000,PWM02 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM02HLD,FF25,xxxxxx00,PWM02 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM03T1H,FF28,x0000000,PWM03 Timer 1 high,,-,,,,,,,
+8,PWM03T1L,FF29,00000000,PWM03 Timer 1 low,,,,,,,,,
+8,PWM03T2H,FF2A,x0000000,PWM03 Timer 2 high,,,,,,,,,
+8,PWM03T2L,FF2B,00000000,PWM03 Timer 2 low,,,,,,,,,
+8,PWM03CR,FF2C,00xxx000,PWM03 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM03HLD,FF2D,xxxxxx00,PWM03 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM04T1H,FF30,x0000000,PWM04 Timer 1 high,,-,,,,,,,
+8,PWM04T1L,FF31,00000000,PWM04 Timer 1 low,,,,,,,,,
+8,PWM04T2H,FF32,x0000000,PWM04 Timer 2 high,,,,,,,,,
+8,PWM04T2L,FF33,00000000,PWM04 Timer 2 low,,,,,,,,,
+8,PWM04CR,FF34,00xxx000,PWM04 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM04HLD,FF35,xxxxxx00,PWM04 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM05T1H,FF38,x0000000,PWM05 Timer 1 high,,-,,,,,,,
+8,PWM05T1L,FF39,00000000,PWM05 Timer 1 low,,,,,,,,,
+8,PWM05T2H,FF3A,x0000000,PWM05 Timer 2 high,,,,,,,,,
+8,PWM05T2L,FF3B,00000000,PWM05 Timer 2 low,,,,,,,,,
+8,PWM05CR,FF3C,00xxx000,PWM05 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM05HLD,FF3D,xxxxxx00,PWM05 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM06T1H,FF40,x0000000,PWM06 Timer 1 high,,-,,,,,,,
+8,PWM06T1L,FF41,00000000,PWM06 Timer 1 low,,,,,,,,,
+8,PWM06T2H,FF42,x0000000,PWM06 Timer 2 high,,,,,,,,,
+8,PWM06T2L,FF43,00000000,PWM06 Timer 2 low,,,,,,,,,
+8,PWM06CR,FF44,00xxx000,PWM06 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM06HLD,FF45,xxxxxx00,PWM06 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM07T1H,FF48,x0000000,PWM07 Timer 1 high,,-,,,,,,,
+8,PWM07T1L,FF49,00000000,PWM07 Timer 1 low,,,,,,,,,
+8,PWM07T2H,FF4A,x0000000,PWM07 Timer 2 high,,,,,,,,,
+8,PWM07T2L,FF4B,00000000,PWM07 Timer 2 low,,,,,,,,,
+8,PWM07CR,FF4C,00xxx000,PWM07 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM07HLD,FF4D,xxxxxx00,PWM07 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+,,...,,,,,,,,,,,
+8,PWM1CH,FF50,x0000000,PWM1 counter high,,-,,,,,,,
+8,PWM1CL,FF51,00000000,PWM1 counter low,,,,,,,,,
+8,PWM1CKS,FF52,xxx00000,PWM1 clock select register,,-,-,-,SELT2,PWM_PS3,PWM_PS2,PWM_PS1,PWM_PS0
+8,PWM1TADCH,FF53,x0000000,PWM1 PWM1 trigger ADC counter high,,-,,,,,,,
+8,PWM1TADCL,FF54,00000000,PWM1 PWM1 trigger ADC counter low,,,,,,,,,
+8,PWM1IF,FF55,00000000,PWM1 interrupt flag register,,C7IF,C6IF,C5IF,C4IF,C3IF,C2IF,C1IF,C0IF
+8,PWM1FDCR,FF56,00000000,PWM1 fault detection control register,,INVCMP,INVIO,ENFD,FLTFLIO,EFDI,FDCMP,FDIO,FDIF
+8,PWM10T1H,FF60,x0000000,PWM10 Timer 1 high,,-,,,,,,,
+8,PWM10T1L,FF61,00000000,PWM10 Timer 1 low,,,,,,,,,
+8,PWM10T2H,FF62,x0000000,PWM10 Timer 2 high,,,,,,,,,
+8,PWM10T2L,FF63,00000000,PWM10 Timer 2 low,,,,,,,,,
+8,PWM10CR,FF64,00xxx000,PWM10 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM10HLD,FF65,xxxxxx00,PWM10 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM11T1H,FF68,x0000000,PWM11 Timer 1 high,,-,,,,,,,
+8,PWM11T1L,FF69,00000000,PWM11 Timer 1 low,,,,,,,,,
+8,PWM11T2H,FF6A,x0000000,PWM11 Timer 2 high,,,,,,,,,
+8,PWM11T2L,FF6B,00000000,PWM11 Timer 2 low,,,,,,,,,
+8,PWM11CR,FF6C,00xxx000,PWM11 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM11HLD,FF6D,xxxxxx00,PWM11 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM12T1H,FF70,x0000000,PWM12 Timer 1 high,,-,,,,,,,
+8,PWM12T1L,FF71,00000000,PWM12 Timer 1 low,,,,,,,,,
+8,PWM12T2H,FF72,x0000000,PWM12 Timer 2 high,,,,,,,,,
+8,PWM12T2L,FF73,00000000,PWM12 Timer 2 low,,,,,,,,,
+8,PWM12CR,FF74,00xxx000,PWM12 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM12HLD,FF75,xxxxxx00,PWM12 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM13T1H,FF78,x0000000,PWM13 Timer 1 high,,-,,,,,,,
+8,PWM13T1L,FF79,00000000,PWM13 Timer 1 low,,,,,,,,,
+8,PWM13T2H,FF7A,x0000000,PWM13 Timer 2 high,,,,,,,,,
+8,PWM13T2L,FF7B,00000000,PWM13 Timer 2 low,,,,,,,,,
+8,PWM13CR,FF7C,00xxx000,PWM13 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM13HLD,FF7D,xxxxxx00,PWM13 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM14T1H,FF80,x0000000,PWM14 Timer 1 high,,-,,,,,,,
+8,PWM14T1L,FF81,00000000,PWM14 Timer 1 low,,,,,,,,,
+8,PWM14T2H,FF82,x0000000,PWM14 Timer 2 high,,,,,,,,,
+8,PWM14T2L,FF83,00000000,PWM14 Timer 2 low,,,,,,,,,
+8,PWM14CR,FF84,00xxx000,PWM14 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM14HLD,FF85,xxxxxx00,PWM14 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM15T1H,FF88,x0000000,PWM15 Timer 1 high,,-,,,,,,,
+8,PWM15T1L,FF89,00000000,PWM15 Timer 1 low,,,,,,,,,
+8,PWM15T2H,FF8A,x0000000,PWM15 Timer 2 high,,,,,,,,,
+8,PWM15T2L,FF8B,00000000,PWM15 Timer 2 low,,,,,,,,,
+8,PWM15CR,FF8C,00xxx000,PWM15 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM15HLD,FF8D,xxxxxx00,PWM15 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM16T1H,FF90,x0000000,PWM16 Timer 1 high,,-,,,,,,,
+8,PWM16T1L,FF91,00000000,PWM16 Timer 1 low,,,,,,,,,
+8,PWM16T2H,FF92,x0000000,PWM16 Timer 2 high,,,,,,,,,
+8,PWM16T2L,FF93,00000000,PWM16 Timer 2 low,,,,,,,,,
+8,PWM16CR,FF94,00xxx000,PWM16 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM16HLD,FF95,xxxxxx00,PWM16 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM17T1H,FF98,x0000000,PWM17 Timer 1 high,,-,,,,,,,
+8,PWM17T1L,FF99,00000000,PWM17 Timer 1 low,,,,,,,,,
+8,PWM17T2H,FF9A,x0000000,PWM17 Timer 2 high,,,,,,,,,
+8,PWM17T2L,FF9B,00000000,PWM17 Timer 2 low,,,,,,,,,
+8,PWM17CR,FF9C,00xxx000,PWM17 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM17HLD,FF9D,xxxxxx00,PWM17 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+,,...,,,,,,,,,,,
+8,PWM2CH,FFA0,x0000000,PWM2 counter high,,-,,,,,,,
+8,PWM2CL,FFA1,00000000,PWM2 counter low,,,,,,,,,
+8,PWM2CKS,FFA2,xxx00000,PWM2 clock select register,,-,-,-,SELT2,PWM_PS3,PWM_PS2,PWM_PS1,PWM_PS0
+8,PWM2TADCH,FFA3,x0000000,PWM2 PWM2 trigger ADC counter high,,-,,,,,,,
+8,PWM2TADCL,FFA4,00000000,PWM2 PWM2 trigger ADC counter low,,,,,,,,,
+8,PWM2IF,FFA5,00000000,PWM2 interrupt flag register,,C7IF,C6IF,C5IF,C4IF,C3IF,C2IF,C1IF,C0IF
+8,PWM2FDCR,FFA6,00000000,PWM2 fault detection control register,,INVCMP,INVIO,ENFD,FLTFLIO,EFDI,FDCMP,FDIO,FDIF
+8,PWM20T1H,FFB0,x0000000,PWM20 Timer 1 high,,-,,,,,,,
+8,PWM20T1L,FFB1,00000000,PWM20 Timer 1 low,,,,,,,,,
+8,PWM20T2H,FFB2,x0000000,PWM20 Timer 2 high,,,,,,,,,
+8,PWM20T2L,FFB3,00000000,PWM20 Timer 2 low,,,,,,,,,
+8,PWM20CR,FFB4,00xxx000,PWM20 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM20HLD,FFB5,xxxxxx00,PWM20 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM21T1H,FFB8,x0000000,PWM21 Timer 1 high,,-,,,,,,,
+8,PWM21T1L,FFB9,00000000,PWM21 Timer 1 low,,,,,,,,,
+8,PWM21T2H,FFBA,x0000000,PWM21 Timer 2 high,,,,,,,,,
+8,PWM21T2L,FFBB,00000000,PWM21 Timer 2 low,,,,,,,,,
+8,PWM21CR,FFBC,00xxx000,PWM21 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM21HLD,FFBD,xxxxxx00,PWM21 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM22T1H,FFC0,x0000000,PWM22 Timer 1 high,,-,,,,,,,
+8,PWM22T1L,FFC1,00000000,PWM22 Timer 1 low,,,,,,,,,
+8,PWM22T2H,FFC2,x0000000,PWM22 Timer 2 high,,,,,,,,,
+8,PWM22T2L,FFC3,00000000,PWM22 Timer 2 low,,,,,,,,,
+8,PWM22CR,FFC4,00xxx000,PWM22 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM22HLD,FFC5,xxxxxx00,PWM22 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM23T1H,FFC8,x0000000,PWM23 Timer 1 high,,-,,,,,,,
+8,PWM23T1L,FFC9,00000000,PWM23 Timer 1 low,,,,,,,,,
+8,PWM23T2H,FFCA,x0000000,PWM23 Timer 2 high,,,,,,,,,
+8,PWM23T2L,FFCB,00000000,PWM23 Timer 2 low,,,,,,,,,
+8,PWM23CR,FFCC,00xxx000,PWM23 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM23HLD,FFCD,xxxxxx00,PWM23 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM24T1H,FFD0,x0000000,PWM24 Timer 1 high,,-,,,,,,,
+8,PWM24T1L,FFD1,00000000,PWM24 Timer 1 low,,,,,,,,,
+8,PWM24T2H,FFD2,x0000000,PWM24 Timer 2 high,,,,,,,,,
+8,PWM24T2L,FFD3,00000000,PWM24 Timer 2 low,,,,,,,,,
+8,PWM24CR,FFD4,00xxx000,PWM24 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM24HLD,FFD5,xxxxxx00,PWM24 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM25T1H,FFD8,x0000000,PWM25 Timer 1 high,,-,,,,,,,
+8,PWM25T1L,FFD9,00000000,PWM25 Timer 1 low,,,,,,,,,
+8,PWM25T2H,FFDA,x0000000,PWM25 Timer 2 high,,,,,,,,,
+8,PWM25T2L,FFDB,00000000,PWM25 Timer 2 low,,,,,,,,,
+8,PWM25CR,FFDC,00xxx000,PWM25 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM25HLD,FFDD,xxxxxx00,PWM25 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM26T1H,FFE0,x0000000,PWM26 Timer 1 high,,-,,,,,,,
+8,PWM26T1L,FFE1,00000000,PWM26 Timer 1 low,,,,,,,,,
+8,PWM26T2H,FFE2,x0000000,PWM26 Timer 2 high,,,,,,,,,
+8,PWM26T2L,FFE3,00000000,PWM26 Timer 2 low,,,,,,,,,
+8,PWM26CR,FFE4,00xxx000,PWM26 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM26HLD,FFE5,xxxxxx00,PWM26 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM27T1H,FFE8,x0000000,PWM27 Timer 1 high,,-,,,,,,,
+8,PWM27T1L,FFE9,00000000,PWM27 Timer 1 low,,,,,,,,,
+8,PWM27T2H,FFEA,x0000000,PWM27 Timer 2 high,,,,,,,,,
+8,PWM27T2L,FFEB,00000000,PWM27 Timer 2 low,,,,,,,,,
+8,PWM27CR,FFEC,00xxx000,PWM27 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM27HLD,FFED,xxxxxx00,PWM27 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+,,...,,,,,,,,,,,
+8,PWM3CH,FC00,x0000000,PWM3 counter high,,-,,,,,,,
+8,PWM3CL,FC01,00000000,PWM3 counter low,,,,,,,,,
+8,PWM3CKS,FC02,xxx00000,PWM3 clock select register,,-,-,-,SELT2,PWM_PS3,PWM_PS2,PWM_PS1,PWM_PS0
+8,PWM3TADCH,FC03,x0000000,PWM3 PWM3 trigger ADC counter high,,-,,,,,,,
+8,PWM3TADCL,FC04,00000000,PWM3 PWM3 trigger ADC counter low,,,,,,,,,
+8,PWM3IF,FC05,00000000,PWM3 interrupt flag register,,C7IF,C6IF,C5IF,C4IF,C3IF,C2IF,C1IF,C0IF
+8,PWM3FDCR,FC06,00000000,PWM3 fault detection control register,,INVCMP,INVIO,ENFD,FLTFLIO,EFDI,FDCMP,FDIO,FDIF
+8,PWM30T1H,FC10,x0000000,PWM30 Timer 1 high,,-,,,,,,,
+8,PWM30T1L,FC11,00000000,PWM30 Timer 1 low,,,,,,,,,
+8,PWM30T2H,FC12,x0000000,PWM30 Timer 2 high,,,,,,,,,
+8,PWM30T2L,FC13,00000000,PWM30 Timer 2 low,,,,,,,,,
+8,PWM30CR,FC14,00xxx000,PWM30 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM30HLD,FC15,xxxxxx00,PWM30 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM31T1H,FC18,x0000000,PWM31 Timer 1 high,,-,,,,,,,
+8,PWM31T1L,FC19,00000000,PWM31 Timer 1 low,,,,,,,,,
+8,PWM31T2H,FC1A,x0000000,PWM31 Timer 2 high,,,,,,,,,
+8,PWM31T2L,FC1B,00000000,PWM31 Timer 2 low,,,,,,,,,
+8,PWM31CR,FC1C,00xxx000,PWM31 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM31HLD,FC1D,xxxxxx00,PWM31 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM32T1H,FC20,x0000000,PWM32 Timer 1 high,,-,,,,,,,
+8,PWM32T1L,FC21,00000000,PWM32 Timer 1 low,,,,,,,,,
+8,PWM32T2H,FC22,x0000000,PWM32 Timer 2 high,,,,,,,,,
+8,PWM32T2L,FC23,00000000,PWM32 Timer 2 low,,,,,,,,,
+8,PWM32CR,FC24,00xxx000,PWM32 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM32HLD,FC25,xxxxxx00,PWM32 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM33T1H,FC28,x0000000,PWM33 Timer 1 high,,-,,,,,,,
+8,PWM33T1L,FC29,00000000,PWM33 Timer 1 low,,,,,,,,,
+8,PWM33T2H,FC2A,x0000000,PWM33 Timer 2 high,,,,,,,,,
+8,PWM33T2L,FC2B,00000000,PWM33 Timer 2 low,,,,,,,,,
+8,PWM33CR,FC2C,00xxx000,PWM33 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM33HLD,FC2D,xxxxxx00,PWM33 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM34T1H,FC30,x0000000,PWM34 Timer 1 high,,-,,,,,,,
+8,PWM34T1L,FC31,00000000,PWM34 Timer 1 low,,,,,,,,,
+8,PWM34T2H,FC32,x0000000,PWM34 Timer 2 high,,,,,,,,,
+8,PWM34T2L,FC33,00000000,PWM34 Timer 2 low,,,,,,,,,
+8,PWM34CR,FC34,00xxx000,PWM34 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM34HLD,FC35,xxxxxx00,PWM34 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM35T1H,FC38,x0000000,PWM35 Timer 1 high,,-,,,,,,,
+8,PWM35T1L,FC39,00000000,PWM35 Timer 1 low,,,,,,,,,
+8,PWM35T2H,FC3A,x0000000,PWM35 Timer 2 high,,,,,,,,,
+8,PWM35T2L,FC3B,00000000,PWM35 Timer 2 low,,,,,,,,,
+8,PWM35CR,FC3C,00xxx000,PWM35 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM35HLD,FC3D,xxxxxx00,PWM35 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM36T1H,FC40,x0000000,PWM36 Timer 1 high,,-,,,,,,,
+8,PWM36T1L,FC41,00000000,PWM36 Timer 1 low,,,,,,,,,
+8,PWM36T2H,FC42,x0000000,PWM36 Timer 2 high,,,,,,,,,
+8,PWM36T2L,FC43,00000000,PWM36 Timer 2 low,,,,,,,,,
+8,PWM36CR,FC44,00xxx000,PWM36 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM36HLD,FC45,xxxxxx00,PWM36 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM37T1H,FC48,x0000000,PWM37 Timer 1 high,,-,,,,,,,
+8,PWM37T1L,FC49,00000000,PWM37 Timer 1 low,,,,,,,,,
+8,PWM37T2H,FC4A,x0000000,PWM37 Timer 2 high,,,,,,,,,
+8,PWM37T2L,FC4B,00000000,PWM37 Timer 2 low,,,,,,,,,
+8,PWM37CR,FC4C,00xxx000,PWM37 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM37HLD,FC4D,xxxxxx00,PWM37 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+,,...,,,,,,,,,,,
+8,PWM4CH,FC50,x0000000,PWM4 counter high,,-,,,,,,,
+8,PWM4CL,FC51,00000000,PWM4 counter low,,,,,,,,,
+8,PWM4CKS,FC52,xxx00000,PWM4 clock select register,,-,-,-,SELT2,PWM_PS3,PWM_PS2,PWM_PS1,PWM_PS0
+8,PWM4TADCH,FC53,x0000000,PWM4 PWM4 trigger ADC counter high,,-,,,,,,,
+8,PWM4TADCL,FC54,00000000,PWM4 PWM4 trigger ADC counter low,,,,,,,,,
+8,PWM4IF,FC55,00000000,PWM4 interrupt flag register,,C7IF,C6IF,C5IF,C4IF,C3IF,C2IF,C1IF,C0IF
+8,PWM4FDCR,FC56,00000000,PWM4 fault detection control register,,INVCMP,INVIO,ENFD,FLTFLIO,EFDI,FDCMP,FDIO,FDIF
+8,PWM40T1H,FC60,x0000000,PWM40 Timer 1 high,,-,,,,,,,
+8,PWM40T1L,FC61,00000000,PWM40 Timer 1 low,,,,,,,,,
+8,PWM40T2H,FC62,x0000000,PWM40 Timer 2 high,,,,,,,,,
+8,PWM40T2L,FC63,00000000,PWM40 Timer 2 low,,,,,,,,,
+8,PWM40CR,FC64,00xxx000,PWM40 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM40HLD,FC65,xxxxxx00,PWM40 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM41T1H,FC68,x0000000,PWM41 Timer 1 high,,-,,,,,,,
+8,PWM41T1L,FC69,00000000,PWM41 Timer 1 low,,,,,,,,,
+8,PWM41T2H,FC6A,x0000000,PWM41 Timer 2 high,,,,,,,,,
+8,PWM41T2L,FC6B,00000000,PWM41 Timer 2 low,,,,,,,,,
+8,PWM41CR,FC6C,00xxx000,PWM41 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM41HLD,FC6D,xxxxxx00,PWM41 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM42T1H,FC70,x0000000,PWM42 Timer 1 high,,-,,,,,,,
+8,PWM42T1L,FC71,00000000,PWM42 Timer 1 low,,,,,,,,,
+8,PWM42T2H,FC72,x0000000,PWM42 Timer 2 high,,,,,,,,,
+8,PWM42T2L,FC73,00000000,PWM42 Timer 2 low,,,,,,,,,
+8,PWM42CR,FC74,00xxx000,PWM42 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM42HLD,FC75,xxxxxx00,PWM42 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM43T1H,FC78,x0000000,PWM43 Timer 1 high,,-,,,,,,,
+8,PWM43T1L,FC79,00000000,PWM43 Timer 1 low,,,,,,,,,
+8,PWM43T2H,FC7A,x0000000,PWM43 Timer 2 high,,,,,,,,,
+8,PWM43T2L,FC7B,00000000,PWM43 Timer 2 low,,,,,,,,,
+8,PWM43CR,FC7C,00xxx000,PWM43 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM43HLD,FC7D,xxxxxx00,PWM43 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM44T1H,FC80,x0000000,PWM44 Timer 1 high,,-,,,,,,,
+8,PWM44T1L,FC81,00000000,PWM44 Timer 1 low,,,,,,,,,
+8,PWM44T2H,FC82,x0000000,PWM44 Timer 2 high,,,,,,,,,
+8,PWM44T2L,FC83,00000000,PWM44 Timer 2 low,,,,,,,,,
+8,PWM44CR,FC84,00xxx000,PWM44 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM44HLD,FC85,xxxxxx00,PWM44 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM45T1H,FC88,x0000000,PWM45 Timer 1 high,,-,,,,,,,
+8,PWM45T1L,FC89,00000000,PWM45 Timer 1 low,,,,,,,,,
+8,PWM45T2H,FC8A,x0000000,PWM45 Timer 2 high,,,,,,,,,
+8,PWM45T2L,FC8B,00000000,PWM45 Timer 2 low,,,,,,,,,
+8,PWM45CR,FC8C,00xxx000,PWM45 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM45HLD,FC8D,xxxxxx00,PWM45 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM46T1H,FC90,x0000000,PWM46 Timer 1 high,,-,,,,,,,
+8,PWM46T1L,FC91,00000000,PWM46 Timer 1 low,,,,,,,,,
+8,PWM46T2H,FC92,x0000000,PWM46 Timer 2 high,,,,,,,,,
+8,PWM46T2L,FC93,00000000,PWM46 Timer 2 low,,,,,,,,,
+8,PWM46CR,FC94,00xxx000,PWM46 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM46HLD,FC95,xxxxxx00,PWM46 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM47T1H,FC98,x0000000,PWM47 Timer 1 high,,-,,,,,,,
+8,PWM47T1L,FC99,00000000,PWM47 Timer 1 low,,,,,,,,,
+8,PWM47T2H,FC9A,x0000000,PWM47 Timer 2 high,,,,,,,,,
+8,PWM47T2L,FC9B,00000000,PWM47 Timer 2 low,,,,,,,,,
+8,PWM47CR,FC9C,00xxx000,PWM47 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM47HLD,FC9D,xxxxxx00,PWM47 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+,,...,,,,,,,,,,,
+8,PWM5CH,FCA0,x0000000,PWM5 counter high,,-,,,,,,,
+8,PWM5CL,FCA1,00000000,PWM5 counter low,,,,,,,,,
+8,PWM5CKS,FCA2,xxx00000,PWM5 clock select register,,-,-,-,SELT2,PWM_PS3,PWM_PS2,PWM_PS1,PWM_PS0
+8,PWM5TADCH,FCA3,x0000000,PWM5 PWM5 trigger ADC counter high,,-,,,,,,,
+8,PWM5TADCL,FCA4,00000000,PWM5 PWM5 trigger ADC counter low,,,,,,,,,
+8,PWM5IF,FCA5,00000000,PWM5 interrupt flag register,,C7IF,C6IF,C5IF,C4IF,C3IF,C2IF,C1IF,C0IF
+8,PWM5FDCR,FCA6,00000000,PWM5 fault detection control register,,INVCMP,INVIO,ENFD,FLTFLIO,EFDI,FDCMP,FDIO,FDIF
+8,PWM50T1H,FCB0,x0000000,PWM50 Timer 1 high,,-,,,,,,,
+8,PWM50T1L,FCB1,00000000,PWM50 Timer 1 low,,,,,,,,,
+8,PWM50T2H,FCB2,x0000000,PWM50 Timer 2 high,,,,,,,,,
+8,PWM50T2L,FCB3,00000000,PWM50 Timer 2 low,,,,,,,,,
+8,PWM50CR,FCB4,00xxx000,PWM50 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM50HLD,FCB5,xxxxxx00,PWM50 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM51T1H,FCB8,x0000000,PWM51 Timer 1 high,,-,,,,,,,
+8,PWM51T1L,FCB9,00000000,PWM51 Timer 1 low,,,,,,,,,
+8,PWM51T2H,FCBA,x0000000,PWM51 Timer 2 high,,,,,,,,,
+8,PWM51T2L,FCBB,00000000,PWM51 Timer 2 low,,,,,,,,,
+8,PWM51CR,FCBC,00xxx000,PWM51 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM51HLD,FCBD,xxxxxx00,PWM51 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM52T1H,FCC0,x0000000,PWM52 Timer 1 high,,-,,,,,,,
+8,PWM52T1L,FCC1,00000000,PWM52 Timer 1 low,,,,,,,,,
+8,PWM52T2H,FCC2,x0000000,PWM52 Timer 2 high,,,,,,,,,
+8,PWM52T2L,FCC3,00000000,PWM52 Timer 2 low,,,,,,,,,
+8,PWM52CR,FCC4,00xxx000,PWM52 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM52HLD,FCC5,xxxxxx00,PWM52 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM53T1H,FCC8,x0000000,PWM53 Timer 1 high,,-,,,,,,,
+8,PWM53T1L,FCC9,00000000,PWM53 Timer 1 low,,,,,,,,,
+8,PWM53T2H,FCCA,x0000000,PWM53 Timer 2 high,,,,,,,,,
+8,PWM53T2L,FCCB,00000000,PWM53 Timer 2 low,,,,,,,,,
+8,PWM53CR,FCCC,00xxx000,PWM53 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM53HLD,FCCD,xxxxxx00,PWM53 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM54T1H,FCD0,x0000000,PWM54 Timer 1 high,,-,,,,,,,
+8,PWM54T1L,FCD1,00000000,PWM54 Timer 1 low,,,,,,,,,
+8,PWM54T2H,FCD2,x0000000,PWM54 Timer 2 high,,,,,,,,,
+8,PWM54T2L,FCD3,00000000,PWM54 Timer 2 low,,,,,,,,,
+8,PWM54CR,FCD4,00xxx000,PWM54 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM54HLD,FCD5,xxxxxx00,PWM54 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM55T1H,FCD8,x0000000,PWM55 Timer 1 high,,-,,,,,,,
+8,PWM55T1L,FCD9,00000000,PWM55 Timer 1 low,,,,,,,,,
+8,PWM55T2H,FCDA,x0000000,PWM55 Timer 2 high,,,,,,,,,
+8,PWM55T2L,FCDB,00000000,PWM55 Timer 2 low,,,,,,,,,
+8,PWM55CR,FCDC,00xxx000,PWM55 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM55HLD,FCDD,xxxxxx00,PWM55 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM56T1H,FCE0,x0000000,PWM56 Timer 1 high,,-,,,,,,,
+8,PWM56T1L,FCE1,00000000,PWM56 Timer 1 low,,,,,,,,,
+8,PWM56T2H,FCE2,x0000000,PWM56 Timer 2 high,,,,,,,,,
+8,PWM56T2L,FCE3,00000000,PWM56 Timer 2 low,,,,,,,,,
+8,PWM56CR,FCE4,00xxx000,PWM56 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM56HLD,FCE5,xxxxxx00,PWM56 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+8,PWM57T1H,FCE8,x0000000,PWM57 Timer 1 high,,-,,,,,,,
+8,PWM57T1L,FCE9,00000000,PWM57 Timer 1 low,,,,,,,,,
+8,PWM57T2H,FCEA,x0000000,PWM57 Timer 2 high,,,,,,,,,
+8,PWM57T2L,FCEB,00000000,PWM57 Timer 2 low,,,,,,,,,
+8,PWM57CR,FCEC,00xxx000,PWM57 control register,,ENO,INI,-,-,-,ENI,ENT2I,ENT1I
+8,PWM57HLD,FCED,xxxxxx00,PWM57 level hold control register,,-,-,-,-,-,-,HLDH,HLDL
+,,...,,,,,,,,,,,
+8,MD3,FCF0,00000000,MDU data register,,,,,,,,,
+8,MD2,FCF1,00000000,MDU data register,,,,,,,,,
+8,MD1,FCF2,00000000,MDU data register,,,,,,,,,
+8,MD0,FCF3,00000000,MDU data register,,,,,,,,,
+8,MD5,FCF4,00000000,MDU data register,,,,,,,,,
+8,MD4,FCF5,00000000,MDU data register,,,,,,,,,
+8,ARCON,FCF6,00000000,MDU mode control register,,MODE2,MODE1,MODE0,SC4,SC3,SC2,SC1,SC0
+8,OPCON,FCF7,00000000,MDU operation control register,,-,MDOV,-,-,-,-,RST,ENOP
+,,...,,,,,,,,,,,
+,,,,,,,,,,,,,
+V,EXTINT0,03,0,External interrupt 0
+V,TIMER0,0B,1,Timer 0 interrupt
+V,EXTINT1,13,2,External interrupt 1
+V,TIMER1,1B,3,Timer 1 interrupt
+V,UART1,23,4,UART 1 interrupt
+V,ADC,2B,5,ADC interrupt
+V,LVD,33,6,Low-voltage detector interrupt
+V,PCA,3B,7,PCA interrupt
+V,UART2,43,8,UART 2 interrupt
+V,SPI,4B,9,SPI interrupt
+V,EXTINT2,53,10,External interrupt 2 (falling edge only)
+V,EXTINT3,5B,11,External interrupt 3 (falling edge only)
+V,TIMER2,63,12,Timer 2 interrupt
+V,EXTINT4,83,16,External interrupt 4 (falling edge only)
+V,UART3,8B,17,UART 3 interrupt
+V,UART4,93,18,UART 4 interrupt
+V,TIMER3,9B,19,Timer 3 interrupt
+V,TIMER4,A3,20,Timer 4 interrupt
+V,CMP,AB,21,Comparator interrupt
+V,PWM0,B3,22,PWM group 0 interrupt
+V,PWM0FD,BB,23,PWM group 0 fault detection interrupt
+V,I2C,C3,24,I2C interrupt
+V,PWM1,E3,28,PWM group 1 interrupt
+V,PWM2,EB,29,PWM group 2 interrupt
+V,PWM3,F3,30,PWM group 3 interrupt
+V,PWM4,FB,31,PWM group 4 interrupt
+V,PWM5,103,32_SEE_APPENDIX_N,PWM group 5 interrupt (usage in C => see STC8G TRM appendix N)
+V,PWM2FD,10B,33_SEE_APPENDIX_N,PWM group 2 fault detection interrupt (usage in C => see STC8G TRM appendix N)
+V,PWM4FD,113,34_SEE_APPENDIX_N,PWM group 4 fault detection interrupt (usage in C => see STC8G TRM appendix N)
+V,TKSU,11B,35_SEE_APPENDIX_N,Touch key interrupt (usage in C => see STC8G TRM appendix N)
+,,,,,,,,,,,,,
+#,F_CPU,24000000UL,,,,,,,,,,,
+#,T_CPU,1,,,,,,,,,,,
+I,inline void enableExtendedSFR() { P_SW2 |= EAXSFR; }
+I,inline void disableExtendedSFR() { P_SW2 &= ~EAXSFR; }

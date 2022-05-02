@@ -1,0 +1,18 @@
+1. Add the console-stcXX.c file matching your MCU, and console-stdio.c
+to your Makefile.
+
+2. In the C source file implementing main(), include the console-stcXX.h 
+file matching your MCU and call console_initialise(YOUR_BAUD_RATE).
+
+3. Before using console I/O, make sure interrupts are enabled.
+
+4. console-stdio.c redirects putchar() and getchar() to the console, so 
+you can just use functions defined in stdio.h for console I/O.
+
+5. On your PC, I recommend you use Minicom as terminal emulator, as 
+it's available on all the OS I've tested, so you won't need to get 
+used to a different tools when switching to another OS. 
+
+The command line is as easy as:
+
+minicom -b YOUR_BAUD_RATE -D /dev/YOUR_SERIAL_PORT

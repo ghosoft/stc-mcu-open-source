@@ -1,0 +1,8 @@
+Here are 2 Makefile examples I use in my projects, one for single-DPTR 
+MCU, and the other for dual-DPTR MCU.
+
+I included the crtxinit.asm file provided by SDCC to illustrate how to 
+modify it for dual-DPTR support.
+
+Finally, I also added the doxygen.conf I use in my projects in case 
+you'd like to use the same configuration for yours.

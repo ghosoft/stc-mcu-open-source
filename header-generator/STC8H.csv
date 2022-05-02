@@ -1,0 +1,397 @@
+,Symbol,Address,Default,Description,,Bit 7,Bit 6,Bit 5,Bit 4,Bit 3,Bit 2,Bit 1,Bit 0
+,,,,,,,,,,,,,
+C,This file can be used with the following parts with some limitations:
+C,
+C,+-------------+-----+-----+------+--------+-------------------+
+C,| Part        | MDU | USB | UART | Timers | GPIO Ports & Int. |
+C,+-------------+-----+-----+------+--------+-------------------+
+C,| STC8H8K64U  | yes | yes | 4    | 5      | 8             no  |
+C,| STC8H3K64S4 | yes | no  | 4    | 5      | 8             yes |
+C,| STC8H3K64S2 | yes | no  | 2    | 5      | 8             yes |
+C,| STC8H1K28   | no  | no  | 2    | 5      | 5 (0/1/2/3/5) no  |
+C,| STC8H1K08   | no  | no  | 2    | 3      | 3 (1/3/5)     no  |
+C,+-------------+-----+-----+------+--------+-------------------+
+,,,,,,,,,,,,,
+8,P0,80,11111111,Port 0,,P0.7,P0.6,P0.5,P0.4,P0.3,P0.2,P0.1,P0.0
+8,SP,81,00000111,Stack Pointer,,,,,,,,,
+8,DPL,82,00000000,Data Pointer (DPTR) low,,,,,,,,,
+8,DPH,83,00000000,Data Pointer (DPTR) high,,,,,,,,,
+8,S4CON,84,00000000,,,S4SM0,S4ST4,S4SM2,S4REN,S4TB8,S4RB8,S4TI,S4RI
+8,S4BUF,85,xxxxxxxx,,,,,,,,,,
+,,86,,,,,,,,,,,
+8,PCON,87,00110000,Power control,,SMOD,SMOD0,LVDF,POF,GF1,GF0,PD,IDL
+8,TCON,88,00000000,Timer control,,TF1,TR1,TF0,TR0,IE1,IT1,IE0,IT0
+8,TMOD,89,00000000,Timer mode,,T1_GATE,T1_C/T,T1_M1,T1_M0,T0_GATE,T0_C/T,T0_M1,T0_M0
+8,TL0,8A,00000000,Timer 0 low,,,,,,,,,
+8,TL1,8B,00000000,Timer 1 low,,,,,,,,,
+8,TH0,8C,00000000,Timer 0 high,,,,,,,,,
+8,TH1,8D,00000000,Timer 1 high,,,,,,,,,
+8,AUXR,8E,00000001,Auxiliary register,,T0x12,T1x12,UART_M0x6,T2R,T2_C/T,T2x12,EXTRAM,S1ST2
+8,INTCLKO,8F,x000x000,CLK_Output and external interrupt enable register,,-,EX4,EX3,EX2,-,T2CLKO,T1CLKO,T0CLKO
+8,P1,90,11111111,Port 1,,P1.7,P1.6,P1.5,P1.4,P1.3,P1.2,P1.1,P1.0
+8,P1M1,91,00000000,Port 1 Configuration 1,,,,,,,,,
+8,P1M0,92,00000000,Port 1 Configuration 0,,,,,,,,,
+8,P0M1,93,00000000,Port 0 Configuration 1,,,,,,,,,
+8,P0M0,94,00000000,Port 0 Configuration 0,,,,,,,,,
+8,P2M1,95,00000000,Port 2 Configuration 1,,,,,,,,,
+8,P2M0,96,00000000,Port 2 Configuration 0,,,,,,,,,
+,,97,,,,,,,,,,,
+8,SCON,98,00000000,Serial control,,SM0/FE,SM1,SM2,REN,TB8,RB8,TI,RI
+8,SBUF,99,xxxxxxxx,Serial buffer,,,,,,,,,
+8,S2CON,9A,01000000,S2 serial control,,S2SM0,-,S2SM2,S2REN,S2TB8,S2RB8,S2TI,S2RI
+8,S2BUF,9B,xxxxxxxx,S2 serial buffer,,,,,,,,,
+,,9C,,,,,,,,,,,
+8,IRCBAND,9D,xxxxxxxn,IRC band selection detection,,-,-,-,-,-,-,-,BANDSEL
+8,LIRTRIM,9E,xxxxxxnn,IRC frequency trim register,,-,-,-,-,-,-,LIRTRIM1,LIRTRIM0
+8,IRTRIM,9F,nnnnnnnn,IRC frequency adjustment register,,,,,,,,,
+8,P2,A0,11111111,Port 2,,P2.7,P2.6,P2.5,P2.4,P2.3,P2.2,P2.1,P2.0
+8,BUS_SPEED,A1,00xxxx00,Bus speed control,,RW_S1,RW_S0,-,-,-,-,BUS_SPEED1,BUS_SPEED0
+8,P_SW1,A2,nn00000x,Auxiliary register 1,,S1_S1,S1_S0,CCP_S1,CCP_S0,SPI_S1,SPI_S0,0,-
+,,A3,,,,,,,,,,,
+,,A4,,,,,,,,,,,
+,,A5,,,,,,,,,,,
+,,A6,,,,,,,,,,,
+,,A7,,,,,,,,,,,
+8,IE,A8,00000000,Interrupt enable,,EA,ELVD,EADC,ES,ET1,EX1,ET0,EX0
+8,SADDR,A9,00000000,Slave address,,,,,,,,,
+8,WKTCL,AA,11111111,Power-down wake-up timer control register low,,,,,,,,,
+8,WKTCH,AB,01111111,Power-down wake-up timer control register high,,WKTEN,,,,,,,
+8,S3CON,AC,00000000,S3 serial control,,S3SM0,S3ST3,S3SM2,S3REN,S3TB8,S3RB8,S3TI,S3RI
+8,S3BUF,AD,00000000,S3 serial buffer,,,,,,,,,
+8,TA,AE,00000000,DPTR timing control register,,,,,,,,,
+8,IE2,AF,x0000000,Interrupt enable 2,,-,ET4,ET3,ES4,ES3,ET2,ESPI,ES2
+8,P3,B0,11111111,Port 3,,P3.7,P3.6,P3.5,P3.4,P3.3,P3.2,P3.1,P3.0
+8,P3M1,B1,00000000,Port 3 configuration 1,,,,,,,,,
+8,P3M0,B2,00000000,Port 3 configuration 0,,,,,,,,,
+8,P4M1,B3,00000000,Port 4 configuration 1,,,,,,,,,
+8,P4M0,B4,00000000,Port 4 configuration 0,,,,,,,,,
+8,IP2,B5,x0000000,Interrupt priority register 2 low,,-,PI2C,PCMP,PX4,PPWMFD,PPWM,PSPI,PS2
+8,IP2H,B6,x0000000,Interrupt priority register 2 high,,-,PI2CH,PCMPH,PX4H,PPWMFDH,PPWMH,PSPIH,PS2H
+8,IPH,B7,00000000,Interrupt priority register high,,PPCAH,PLVDH,PADCH,PSH,PT1H,PX1H,PT0H,PX0H
+8,IP,B8,00000000,Interrupt priority register low,,PPCA,PLVD,PADC,PS,PT1,PX1,PT0,PX0
+8,SADEN,B9,00000000,Slave address mask,,,,,,,,,
+8,P_SW2,BA,0x000000,Peripheral function switch register 2,,EAXSFR,-,I2C_S1,I2C_S0,CMPO_S,S4_S,S3_S,S2_S
+,,BB,,,,,,,,,,,
+8,ADC_CONTR,BC,00000000,ADC control,,ADC_POWER,ADC_START,ADC_FLAG,-,ADC_CHS3,ADC_CHS2,ADC_CHS1,ADC_CHS0
+8,ADC_RES,BD,00000000,ADC result,,,,,,,,,
+8,ADC_RESL,BE,00000000,ADC result low,,,,,,,,,
+,,BF,,,,,,,,,,,
+8,P4,C0,11111111,Port 4,,-,-,-,P4.4,P4.3,P4.2,P4.1,P4.0
+8,WDT_CONTR,C1,0x000000,Watchdog timer control,,WDT_FLAG,-,EN_WDT,CLR_WDT,IDL_WDT,WDT_PS2,WDT_PS1,WDT_PS0
+8,IAP_DATA,C2,11111111,ISP/IAP flash data register,,,,,,,,,
+8,IAP_ADDRH,C3,00000000,ISP/IAP flash address high,,,,,,,,,
+8,IAP_ADDRL,C4,00000000,ISP/IAP flash address low,,,,,,,,,
+8,IAP_CMD,C5,xxxxxx00,ISP/IAP flash command register,,-,-,-,-,-,-,CMD1,CMD0
+8,IAP_TRIG,C6,xxxxxxxx,ISP/IAP flash trigger register,,,,,,,,,
+8,IAP_CONTR,C7,0000x000,ISP/IAP flash control register,,IAPEN,SWBS,SWRST,CMD_FAIL,-,IAP_WT2,IAP_WT1,IAP_WT0
+8,P5,C8,xx111111,Port 5,,-,-,P5.5,P5.4,P5.3,P5.2,P5.1,P5.0
+8,P5M1,C9,00000000,Port 5 configuration 1,,,,,,,,,
+8,P5M0,CA,00000000,Port 5 configuration 0,,,,,,,,,
+8,P6M1,CB,,Port 6 configuration 1,,,,,,,,,
+8,P6M0,CC,,Port 6 configuration 0,,,,,,,,,
+8,SPSTAT,CD,00xxxxxx,SPI status register,,SPIF,WCOL,-,-,-,-,-,-
+8,SPCTL,CE,00000100,SPI control register,,SSIG,SPEN,DORD,MSTR,CPOL,CPHA,SPR1,SPR0
+8,SPDAT,CF,00000000,SPI data register,,,,,,,,,
+8,PSW,D0,00000000,Program status word,,CY,AC,F0,RS1,RS0,OV,F1,P
+8,T4T3M,D1,00000000,T4 and T3 mode register,,T4R,T4_C/T,T4x12,T4CLKO,T3R,T3_C/T,T3x12,T3CLKO
+8,T4H,D2,00000000,Timer 4 high,,,,,,,,,
+8,T4L,D3,00000000,Timer 4 low,,,,,,,,,
+8,T3H,D4,00000000,Timer 3 high,,,,,,,,,
+8,T3L,D5,00000000,Timer 3 low,,,,,,,,,
+8,T2H,D6,00000000,Timer 2 high,,,,,,,,,
+8,T2L,D7,00000000,Timer 2 low,,,,,,,,,
+,,D8,,,,,,,,,,,
+,,D9,,,,,,,,,,,
+,,DA,,,,,,,,,,,
+,,DB,,,,,,,,,,,
+8,USBCLK,DC,00100000,USB clock control register,,ENCKM,PCKI1,PCKI0,CRE,TST_USB,TST_PHY,PHYTST1,PHYTST0
+,,DD,,,,,,,,,,,
+8,ADCCFG,DE,xx0x0000,ADC configuration register,,-,-,RESFMT,-,ADC_SPEED3,ADC_SPEED2,ADC_SPEED1,ADC_SPEED0
+8,IP3,DF,Interrupt priority register 3 low,,,,,,,,,,
+8,ACC,E0,00000000,Accumulator,,,,,,,,,
+8,P7M1,E1,00000000,Port 7 configuration 1,,,,,,,,,
+8,P7M0,E2,00000000,Port 7 configuration 0,,,,,,,,,
+8,DPS,E3,00000xx0,Data Pointer selector,,ID1,ID0,TSL,AU1,AU0,-,-,DPSEL
+8,DPL1,E4,00000000,Second data pointer low,,,,,,,,,
+8,DPH1,E5,00000000,Second data pointer high,,,,,,,,,
+8,CMPCR1,E6,00000000,Comparator control register 1,,CMPEN,CMPIF,PIE,NIE,PIS,NIS,CMPOE,CMPRES
+8,CMPCR2,E7,00000000,Comparator control register 2,,INVCMPO,DISFLT,LCDTY5,LCDTY4,LCDTY3,LCDTY2,LCDTY1,LCDTY0
+8,P6,E8,,Port 6,,,,,,,,,
+,,E9,,,,,,,,,,,
+,,EA,,,,,,,,,,,
+,,EB,,,,,,,,,,,
+8,USBDAT,EC,00000000,USB data register,,,,,,,,,
+,,ED,,,,,,,,,,,
+8,IP3H,EE,Interrupt priority register 3 high,,,,,,,,,,
+8,AUXINTIF,EF,x000x000,Extended external interrupt flag register,,-,INT4IF,INT3IF,INT2IF,-,T4IF,T3IF,T2IF
+8,B,F0,00000000,B register,,,,,,,,,
+,,F1,,,,,,,,,,,
+,,F2,,,,,,,,,,,
+,,F3,,,,,,,,,,,
+8,USBCON,F4,00000000,USB control register,,ENUSB,USBRST,PS2M,PUEN,PDEN,DFREC,DP,DM
+8,IAP_TPS,F5,,,,,,,,,,,
+,,F6,,,,,,,,,,,
+,,F7,,,,,,,,,,,
+8,P7,F8,11111111,Port 7,,,,,,,,,
+,,F9,,,,,,,,,,,
+,,FA,,,,,,,,,,,
+,,FB,,,,,,,,,,,
+8,USBADR,FC,00000000,USB address register,,BUSY,AUTORD,UADR5,UADR4,UADR3,UADR2,UADR1,UADR0
+,,FD,,,,,,,,,,,
+,,FE,,,,,,,,,,,
+8,RSTCFG,FF,00000000,Reset configuration register,,-,ENLVR,-,P54RST,-,-,LVDS1,LVDS0
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,Symbol,Address,Default,Description,Compatibility,Bit 7,Bit 6,Bit 5,Bit 4,Bit 3,Bit 2,Bit 1,Bit 0
+8,MD3,FCF0,00000000,MDU data register,,,,,,,,,
+8,MD2,FCF1,00000000,MDU data register,,,,,,,,,
+8,MD1,FCF2,00000000,MDU data register,,,,,,,,,
+8,MD0,FCF3,00000000,MDU data register,,,,,,,,,
+8,MD5,FCF4,00000000,MDU data register,,,,,,,,,
+8,MD4,FCF5,00000000,MDU data register,,,,,,,,,
+8,ARCON,FCF6,00000000,MDU mode control register,,MODE2,MODE1,MODE0,SC4,SC3,SC2,SC1,SC0
+8,OPCON,FCF7,00000000,MDU operation control register,,-,MDOV,-,-,-,-,RST,ENOP
+,,...,,,,,,,,,,,
+8,P0INTE,FD00,00000000,Port 0 interrupt enable register,,,,,,,,,
+8,P1INTE,FD01,00000000,Port 1 interrupt enable register,,,,,,,,,
+8,P2INTE,FD02,00000000,Port 2 interrupt enable register,,,,,,,,,
+8,P3INTE,FD03,00000000,Port 3 interrupt enable register,,,,,,,,,
+8,P4INTE,FD04,00000000,Port 4 interrupt enable register,,,,,,,,,
+8,P5INTE,FD05,xx000000,Port 5 interrupt enable register,,,,,,,,,
+8,P6INTE,FD06,00000000,Port 6 interrupt enable register,,,,,,,,,
+8,P7INTE,FD07,00000000,Port 7 interrupt enable register,,,,,,,,,
+8,P0INTF,FD10,00000000,Port 0 interrupt flag register,,,,,,,,,
+8,P1INTF,FD11,00000000,Port 1 interrupt flag register,,,,,,,,,
+8,P2INTF,FD12,00000000,Port 2 interrupt flag register,,,,,,,,,
+8,P3INTF,FD13,00000000,Port 3 interrupt flag register,,,,,,,,,
+8,P4INTF,FD14,00000000,Port 4 interrupt flag register,,,,,,,,,
+8,P5INTF,FD15,xx000000,Port 5 interrupt flag register,,,,,,,,,
+8,P6INTF,FD16,00000000,Port 6 interrupt flag register,,,,,,,,,
+8,P7INTF,FD17,00000000,Port 7 interrupt flag register,,,,,,,,,
+8,P0IM0,FD20,00000000,Port 0 interrupt mode register 0,,,,,,,,,
+8,P1IM0,FD21,00000000,Port 1 interrupt mode register 0,,,,,,,,,
+8,P2IM0,FD22,00000000,Port 2 interrupt mode register 0,,,,,,,,,
+8,P3IM0,FD23,00000000,Port 3 interrupt mode register 0,,,,,,,,,
+8,P4IM0,FD24,00000000,Port 4 interrupt mode register 0,,,,,,,,,
+8,P5IM0,FD25,xx000000,Port 5 interrupt mode register 0,,,,,,,,,
+8,P6IM0,FD26,00000000,Port 6 interrupt mode register 0,,,,,,,,,
+8,P7IM0,FD27,00000000,Port 7 interrupt mode register 0,,,,,,,,,
+8,P0IM1,FD30,00000000,Port 0 interrupt mode register 1,,,,,,,,,
+8,P1IM1,FD31,00000000,Port 1 interrupt mode register 1,,,,,,,,,
+8,P2IM1,FD32,00000000,Port 2 interrupt mode register 1,,,,,,,,,
+8,P3IM1,FD33,00000000,Port 3 interrupt mode register 1,,,,,,,,,
+8,P4IM1,FD34,00000000,Port 4 interrupt mode register 1,,,,,,,,,
+8,P5IM1,FD35,xx000000,Port 5 interrupt mode register 1,,,,,,,,,
+8,P6IM1,FD36,00000000,Port 6 interrupt mode register 1,,,,,,,,,
+8,P7IM1,FD37,00000000,Port 7 interrupt mode register 1,,,,,,,,,
+8,P0WKUE,FD40,00000000,Port 0 interrupt wake-up enable register,,,,,,,,,
+8,P1WKUE,FD41,00000000,Port 1 interrupt wake-up enable register,,,,,,,,,
+8,P2WKUE,FD42,00000000,Port 2 interrupt wake-up enable register,,,,,,,,,
+8,P3WKUE,FD43,00000000,Port 3 interrupt wake-up enable register,,,,,,,,,
+8,P4WKUE,FD44,00000000,Port 4 interrupt wake-up enable register,,,,,,,,,
+8,P5WKUE,FD45,xx000000,Port 5 interrupt wake-up enable register,,,,,,,,,
+8,P6WKUE,FD46,00000000,Port 6 interrupt wake-up enable register,,,,,,,,,
+8,P7WKUE,FD47,00000000,Port 7 interrupt wake-up enable register,,,,,,,,,
+,,...,,,,,,,,,,,
+8,CKSEL,FE00,xxxxxx00,Clock selection register,,-,-,-,-,-,-,MCKSEL1,MCKSEL0
+8,CLKDIV,FE01,nnnnnnnn,Clock frequency division register,,,,,,,,,
+8,HIRCCR,FE02,1xxxxxx0,Internal high-speed RC oscillator control register,,ENHIRC,-,-,-,-,-,-,HIRCST
+8,XOSCCR,FE03,00xxxxx0,External oscillator control register,,ENXOSC,XITYPE,-,-,-,-,-,XOSCST
+8,IRC32KCR,FE04,0xxxxxx0,Internal 32kHz oscillator control register,,ENIRC32K,-,-,-,-,-,-,IRC32KST
+8,MCLKOCR,FE05,00000000,Main clock output control register,,MCLKO_S,MCLKODIV6,MCLKODIV5,MCLKODIV4,MCLKODIV3,MCLKODIV2,MCLKODIV1,MCLKODIV0
+8,IRCDB,FE06,10000000,Internal high-speed oscillator debounce control,,,,,,,,,
+8,IRC48MCR,FE07,1xxxxxx0,Internal 48MHz RC oscillator control register,,ENIRC48M,-,-,-,-,-,-,IRC48MST
+,,...,,,,,,,,,,,
+8,SPFUNC,FE08,xxxxxxx0,Special function fontrol register,,-,-,-,-,-,-,-,BKSWR
+8,RSTFLAG,FE09,xxxxx000,Reset flag register,,-,-,-,-,-,SWR,ROMOV,EXRST
+,,...,,,,,,,,,,,
+8,P0PU,FE10,00000000,Port 0 pull-up resistor control register,,,,,,,,,
+8,P1PU,FE11,00000000,Port 1 pull-up resistor control register,,,,,,,,,
+8,P2PU,FE12,00000000,Port 2 pull-up resistor control register,,,,,,,,,
+8,P3PU,FE13,00000000,Port 3 pull-up resistor control register,,,,,,,,,
+8,P4PU,FE14,00000000,Port 4 pull-up resistor control register,,,,,,,,,
+8,P5PU,FE15,xx000000,Port 5 pull-up resistor control register,,,,,,,,,
+8,P6PU,FE16,00000000,Port 6 pull-up resistor control register,,,,,,,,,
+8,P7PU,FE17,00000000,Port 7 pull-up resistor control register,,,,,,,,,
+8,P0NCS,FE18,00000000,Port 0 Schmidt trigger control register,,,,,,,,,
+8,P1NCS,FE19,00000000,Port 1 Schmidt trigger control register,,,,,,,,,
+8,P2NCS,FE1A,00000000,Port 2 Schmidt trigger control register,,,,,,,,,
+8,P3NCS,FE1B,00000000,Port 3 Schmidt trigger control register,,,,,,,,,
+8,P4NCS,FE1C,00000000,Port 4 Schmidt trigger control register,,,,,,,,,
+8,P5NCS,FE1D,xx000000,Port 5 Schmidt trigger control register,,,,,,,,,
+8,P6NCS,FE1E,00000000,Port 6 Schmidt trigger control register,,,,,,,,,
+8,P7NCS,FE1F,00000000,Port 7 Schmidt trigger control register,,,,,,,,,
+8,P0SR,FE20,11111111,Port 0 level transition rate register,,,,,,,,,
+8,P1SR,FE21,11111111,Port 1 level transition rate register,,,,,,,,,
+8,P2SR,FE22,11111111,Port 2 level transition rate register,,,,,,,,,
+8,P3SR,FE23,11111111,Port 3 level transition rate register,,,,,,,,,
+8,P4SR,FE24,11111111,Port 4 level transition rate register,,,,,,,,,
+8,P5SR,FE25,xx111111,Port 5 level transition rate register,,,,,,,,,
+8,P6SR,FE26,11111111,Port 6 level transition rate register,,,,,,,,,
+8,P7SR,FE27,11111111,Port 7 level transition rate register,,,,,,,,,
+8,P0DR,FE28,11111111,Port 0 drive current control register,,,,,,,,,
+8,P1DR,FE29,11111111,Port 1 drive current control register,,,,,,,,,
+8,P2DR,FE2A,11111111,Port 2 drive current control register,,,,,,,,,
+8,P3DR,FE2B,11111111,Port 3 drive current control register,,,,,,,,,
+8,P4DR,FE2C,11111111,Port 4 drive current control register,,,,,,,,,
+8,P5DR,FE2D,xx111111,Port 5 drive current control register,,,,,,,,,
+8,P6DR,FE2E,11111111,Port 6 drive current control register,,,,,,,,,
+8,P7DR,FE2F,11111111,Port 7 drive current control register,,,,,,,,,
+8,P0IE,FE30,11111111,Port 0 input enable control register,,,,,,,,,
+8,P1IE,FE31,11111111,Port 1 input enable control register,,,,,,,,,
+,,...,,,,,,,,,,,
+8,I2CCFG,FE80,00000000,I2C configuration register,,ENI2C,MSSL,MSSPEED5,MSSPEED4,MSSPEED3,MSSPEED2,MSSPEED1,MSSPEED0
+8,I2CMSCR,FE81,0xxx0000,I2C host control register,,EMSI,-,-,-,MSCMD3,MSCMD2,MSCMD1,MSCMD0
+8,I2CMSST,FE82,00xxxx00,I2C host state register,,MSBUSY,MSIF,-,-,-,-,MSACK1,MSACK0
+8,I2CSLCR,FE83,x0000xx0,I2C slave control register,,-,ESTAI,ERXI,ETXI,ESTOI,-,-,SLRST
+8,I2CSLST,FE84,00000000,I2C slave state register,,SLBUSY,STAIF,RXIF,TXIF,STOIF,TXING,SLACK1,SLACK0
+8,I2CSLADR,FE85,00000000,I2C slave address register,,SLADR6,SLADR5,SLADR4,SLADR3,SLADR2,SLADR1,SLADR0,MA
+8,I2CTXD,FE86,00000000,I2C data transmission register,,,,,,,,,
+8,I2CRXD,FE87,00000000,I2C data receiving register,,,,,,,,,
+8,I2CMSAUX,FE88,00000000,I2C host auxiliary control register,,-,-,-,-,-,-,-,WDTA
+,,...,,,,,,,,,,,
+8,TM2PS,FEA2,00000000,Timer 2 clock prescaler register,,,,,,,,,
+8,TM3PS,FEA3,00000000,Timer 3 clock prescaler register,,,,,,,,,
+8,TM4PS,FEA4,00000000,Timer 4 clock prescaler register,,,,,,,,,
+,,...,,,,,,,,,,,
+8,ADCTIM,FEA8,00101010,ADC timing control register,,CSSETUP,CSHOLD1,CSHOLD0,SMPDUTY4,SMPDUTY3,SMPDUTY2,SMPDUTY1,SMPDUTY0
+,,...,,,,,,,,,,,
+8,T3T4PIN,FEAC,xxxxxxx0,T3/T4 selection register,,-,-,-,-,-,-,-,T3T4SEL
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,Symbol,Address,Default,Description,Compatibility,Bit 7,Bit 6,Bit 5,Bit 4,Bit 3,Bit 2,Bit 1,Bit 0
+8,PWMA_ETRPS,FEB0,xxxxx000,PWMA ETR select register,,-,-,-,-,-,BRKAPS,ETRAPS1,ETRAPS0
+8,PWMA_ENO,FEB1,00000000,PWMA output enable control,,ENO4N,ENO4P,ENO3N,ENO3P,ENO2N,ENO2P,ENO1N,ENO1P
+8,PWMA_PS,FEB2,00000000,PWMA output pin selection register,,C4PS1,C4PS0,C3PS1,C3PS0,C2PS1,C2PS0,C1PS1,C1PS0
+8,PWMA_IOAUX,FEB3,00000000,PWMA auxiliary register,,AUX4N,AUX4P,AUX3N,AUX3P,AUX2N,AUX2P,AUX1N,AUX1P
+8,PWMB_ETRPS,FEB4,xxxxx000,PWMB ETR select register,,-,-,-,-,-,BRKBPS,ETRBPS1,ETRBPS0
+8,PWMB_ENO,FEB5,x0x0x0x0,PWMB output enable control,,-,ENO8P,-,ENO7P,-,ENO6P,-,ENO5P
+8,PWMB_PS,FEB6,00000000,PWMB output pin selection register,,C8PS1,C8PS0,C7PS1,C7PS0,C6PS1,C6PS0,C5PS1,C5PS0
+8,PWMB_IOAUX,FEB7,x0x0x0x0,PWMB auxiliary register,,-,AUX8P,-,AUX7P,-,AUX6P,-,AUX5P
+,,...,,,,,,,,,,,
+8,PWMA_CR1,FEC0,00000000,PWMA control register 1,,ARPE,CMS1,CMS0,DIR,OPM,URS,UDIS,CEN
+8,PWMA_CR2,FEC1,x000x0x0,PWMA control register 2,,-,MMS2,MMS1,MMS0,-,COMS,-,CCPC
+8,PWMA_SMCR,FEC2,0000x000,PWMA slave mode control register,,MSM,TS2,TS1,TS0,-,SMS2,SMS1,SMS0
+8,PWMA_ETR,FEC3,00000000,PWMA external trigger register,,ETP,ECE,ETPS1,ETPS0,ETF3,ETF2,ETF1,ETF0
+8,PWMA_IER,FEC4,00000000,PWMA interrupt enable register,,BIE,TIE,COMIE,CC4IE,CC3IE,CC2IE,CC1IE,UIE
+8,PWMA_SR1,FEC5,00000000,PWMA status register 1,,BIF,TIF,COMIF,CC4IF,CC3IF,CC2IF,CC1IF,UIF
+8,PWMA_SR2,FEC6,xxx0000x,PWMA status register 2,,-,-,-,CC4OF,CC3OF,CC2OF,CC1OF,-
+8,PWMA_EGR,FEC7,00000000,PWMA event register,,BG,TG,COMG,CC4G,CC3G,CC2G,CC1G,UG
+8,PWMA_CCMR1,FEC8,00000000,PWMA capture mode register 1,,OC1CE,OC1M2,OC1M1,OC1M0,OC1PE,OC1FE,CC1S1,CC1S0
+8,PWMA_CCMR1,FEC8,00000000,PWMA compare mode register 1,,IC1F3,IC1F2,IC1F1,IC1F0,IC1PSC1,IC1PSC0,CC1S1,CC1S0
+8,PWMA_CCMR2,FEC9,00000000,PWMA capture mode register 2,,OC2CE,OC2M2,OC2M1,OC2M0,OC2PE,OC2FE,CC2S1,CC2S0
+8,PWMA_CCMR2,FEC9,00000000,PWMA compare mode register 2,,IC2F3,IC2F2,IC2F1,IC2F0,IC2PSC1,IC2PSC0,CC2S1,CC2S0
+8,PWMA_CCMR3,FECA,00000000,PWMA capture mode register 3,,OC3CE,OC3M2,OC3M1,OC3M0,OC3PE,OC3FE,CC3S1,CC3S0
+8,PWMA_CCMR3,FECA,00000000,PWMA compare mode register 3,,IC3F3,IC3F2,IC3F1,IC3F0,IC3PSC1,IC3PSC0,CC3S1,CC3S0
+8,PWMA_CCMR4,FECB,00000000,PWMA capture mode register 4,,OC4CE,OC4M2,OC4M1,OC4M0,OC4PE,OC4FE,CC4S1,CC4S0
+8,PWMA_CCMR4,FECB,00000000,PWMA compare mode register 4,,IC4F3,IC4F2,IC4F1,IC4F0,IC4PSC1,IC4PSC0,CC4S1,CC4S0
+8,PWMA_CCER1,FECC,00000000,PWMA capture compare enable register 1,,CC2NP,CC2NE,CC2P,CC2E,CC1NP,CC1NE,CC1P,CC1E
+8,PWMA_CCER2,FECD,00000000,PWMA capture compare enable register 2,,CC4NP,CC4NE,CC4P,CC4E,CC3NP,CC3NE,CC3P,CC3E
+8,PWMA_CNTRH,FECE,00000000,PWMA counter high byte,,,,,,,,,
+8,PWMA_CNTRL,FECF,00000000,PWMA counter low byte,,,,,,,,,
+8,PWMA_PSCRH,FED0,00000000,PWMA prescale high byte,,,,,,,,,
+8,PWMA_PSCRL,FED1,00000000,PWMA prescale low byte,,,,,,,,,
+8,PWMA_ARRH,FED2,00000000,PWMA auto-reload register high byte,,,,,,,,,
+8,PWMA_ARRL,FED3,00000000,PWMA auto-reload register low byte,,,,,,,,,
+8,PWMA_RCR,FED4,00000000,PWMA repeat counter register,,,,,,,,,
+8,PWMA_CCR1H,FED5,00000000,PWMA compare capture register 1 high byte,,,,,,,,,
+8,PWMA_CCR1L,FED6,00000000,PWMA compare capture register 1 low byte,,,,,,,,,
+8,PWMA_CCR2H,FED7,00000000,PWMA compare capture register 2 high byte,,,,,,,,,
+8,PWMA_CCR2L,FED8,00000000,PWMA compare capture register 2 low byte,,,,,,,,,
+8,PWMA_CCR3H,FED9,00000000,PWMA compare capture register 3 high byte,,,,,,,,,
+8,PWMA_CCR3L,FEDA,00000000,PWMA compare capture register 3 low byte,,,,,,,,,
+8,PWMA_CCR4H,FEDB,00000000,PWMA compare capture register 4 high byte,,,,,,,,,
+8,PWMA_CCR4L,FEDC,00000000,PWMA compare capture register 4 low byte,,,,,,,,,
+8,PWMA_BKR,FEDD,00000000,PWMA brake register,,MOE,AOE,BKP,BKE,OSSR,OSSI,LOCK1,LOCK0
+8,PWMA_DTR,FEDE,00000000,PWMA dead time control register,,,,,,,,,
+8,PWMA_OISR,FEDF,00000000,PWMA output idle status register,,OIS4N,OIS4,OIS3N,OIS3,OIS2N,OIS2,OIS1N,OIS1
+,,,,,,,,,,,,,
+8,PWMB_CR1,FEE0,00000000,PWMB control register 1,,ARPE,CMS1,CMS0,DIR,OPM,URS,UDIS,CEN
+8,PWMB_CR2,FEE1,x000x0x0,PWMB control register 2,,-,MMS2,MMS1,MMS0,-,COMS,-,CCPC
+8,PWMB_SMCR,FEE2,0000x000,PWMB slave mode control register,,MSM,TS2,TS1,TS0,-,SMS2,SMS1,SMS0
+8,PWMB_ETR,FEE3,00000000,PWMB external trigger register,,ETP,ECE,ETPS1,ETPS0,ETF3,ETF2,ETF1,ETF0
+8,PWMB_IER,FEE4,00000000,PWMB interrupt enable register,,BIE,TIE,COMIE,CC8IE,CC7IE,CC6IE,CC5IE,UIE
+8,PWMB_SR1,FEE5,00000000,PWMB status register 1,,BIF,TIF,COMIF,CC8IF,CC7IF,CC6IF,CC5IF,UIF
+8,PWMB_SR2,FEE6,xxx0000x,PWMB status register 2,,-,-,-,CC8OF,CC7OF,CC6OF,CC5OF,-
+8,PWMB_EGR,FEE7,00000000,PWMB event register,,BG,TG,COMG,CC8G,CC7G,CC6G,CC5G,UG
+8,PWMB_CCMR1,FEE8,00000000,PWMB capture mode register 1,,OC5CE,OC5M2,OC5M1,OC5M0,OC5PE,OC5FE,CC5S1,CC5S0
+8,PWMB_CCMR1,FEE8,00000000,PWMB compare mode register 1,,IC5F3,IC5F2,IC5F1,IC5F0,IC5PSC1,IC5PSC0,CC5S1,CC5S0
+8,PWMB_CCMR2,FEE9,00000000,PWMB capture mode register 2,,OC6CE,OC6M2,OC6M1,OC6M0,OC6PE,OC6FE,CC6S1,CC6S0
+8,PWMB_CCMR2,FEE9,00000000,PWMB compare mode register 2,,IC6F3,IC6F2,IC6F1,IC6F0,IC6PSC1,IC6PSC0,CC6S1,CC6S0
+8,PWMB_CCMR3,FEEA,00000000,PWMB capture mode register 3,,OC7CE,OC7M2,OC7M1,OC7M0,OC7PE,OC7FE,CC7S1,CC7S0
+8,PWMB_CCMR3,FEEA,00000000,PWMB compare mode register 3,,IC7F3,IC7F2,IC7F1,IC7F0,IC7PSC1,IC7PSC0,CC7S1,CC7S0
+8,PWMB_CCMR4,FEEB,00000000,PWMB capture mode register 4,,OC8CE,OC8M2,OC8M1,OC8M0,OC8PE,OC8FE,CC8S1,CC8S0
+8,PWMB_CCMR4,FEEB,00000000,PWMB compare mode register 4,,IC8F3,IC8F2,IC8F1,IC8F0,IC8PSC1,IC8PSC0,CC8S1,CC8S0
+8,PWMB_CCER1,FEEC,00000000,PWMB capture compare enable register 1,,CC6NP,CC6NE,CC6P,CC6E,CC5NP,CC5NE,CC5P,CC5E
+8,PWMB_CCER2,FEED,00000000,PWMB capture compare enable register 2,,CC8NP,CC8NE,CC8P,CC8E,CC7NP,CC7NE,CC7P,CC7E
+8,PWMB_CNTRH,FEEE,00000000,PWMB counter high byte,,,,,,,,,
+8,PWMB_CNTRL,FEEF,00000000,PWMB counter low byte,,,,,,,,,
+8,PWMB_PSCRH,FEF0,00000000,PWMB prescale high byte,,,,,,,,,
+8,PWMB_PSCRL,FEF1,00000000,PWMB prescale low byte,,,,,,,,,
+8,PWMB_ARRH,FEF2,00000000,PWMB auto-reload register high byte,,,,,,,,,
+8,PWMB_ARRL,FEF3,00000000,PWMB auto-reload register low byte,,,,,,,,,
+8,PWMB_RCR,FEF4,00000000,PWMB repeat counter register,,,,,,,,,
+8,PWMB_CCR1H,FEF5,00000000,PWMB compare capture register 1 high byte,,,,,,,,,
+8,PWMB_CCR1L,FEF6,00000000,PWMB compare capture register 1 low byte,,,,,,,,,
+8,PWMB_CCR2H,FEF7,00000000,PWMB compare capture register 2 high byte,,,,,,,,,
+8,PWMB_CCR2L,FEF8,00000000,PWMB compare capture register 2 low byte,,,,,,,,,
+8,PWMB_CCR3H,FEF9,00000000,PWMB compare capture register 3 high byte,,,,,,,,,
+8,PWMB_CCR3L,FEFA,00000000,PWMB compare capture register 3 low byte,,,,,,,,,
+8,PWMB_CCR4H,FEFB,00000000,PWMB compare capture register 4 high byte,,,,,,,,,
+8,PWMB_CCR4L,FEFC,00000000,PWMB compare capture register 4 low byte,,,,,,,,,
+8,PWMB_BKR,FEFD,00000000,PWMB brake register,,MOE,AOE,BKP,BKE,OSSR,OSSI,LOCK1,LOCK0
+8,PWMB_DTR,FEFE,00000000,PWMB dead time control register,,,,,,,,,
+8,PWMB_OISR,FEFF,x0x0x0x0,PWMB output idle status register,,-,OIS8,-,OIS7,-,OIS6,-,OIS5
+,,...,,,,,,,,,,,
+,,,,,,,,,,,,,
+V,EXTINT0,03,0,External interrupt 0
+V,TIMER0,0B,1,Timer 0 interrupt
+V,EXTINT1,13,2,External interrupt 1
+V,TIMER1,1B,3,Timer 1 interrupt
+V,UART1,23,4,UART 1 interrupt
+V,ADC,2B,5,ADC interrupt
+V,LVD,33,6,Low-voltage detector interrupt
+V,PCA,3B,7,PCA interrupt
+V,UART2,43,8,UART 2 interrupt
+V,SPI,4B,9,SPI interrupt
+V,EXTINT2,53,10,External interrupt 2 (falling edge only)
+V,EXTINT3,5B,11,External interrupt 3 (falling edge only)
+V,TIMER2,63,12,Timer 2 interrupt
+V,EXTINT4,83,16,External interrupt 4 (falling edge only)
+V,UART3,8B,17,UART 3 interrupt
+V,UART4,93,18,UART 4 interrupt
+V,TIMER3,9B,19,Timer 3 interrupt
+V,TIMER4,A3,20,Timer 4 interrupt
+V,CMP,AB,21,Comparator interrupt
+V,I2C,C3,24,I2C interrupt
+V,USB,CB,25,USB interrupt
+V,PWMA,D3,26,PWM A interrupt
+V,PWMB,DB,27,PWM B interrupt
+V,TKSU,11B,35_SEE_APPENDIX_R,Touch key interrupt (usage in C => see STC8H TRM appendix R)
+V,RTC,123,36_SEE_APPENDIX_R,RTC interrupt (usage in C => see STC8H TRM appendix R)
+V,P0,12B,37_SEE_APPENDIX_R,GPIO port 0 interrupt (usage in C => see STC8H TRM appendix R)
+V,P1,133,38_SEE_APPENDIX_R,GPIO port 1 interrupt (usage in C => see STC8H TRM appendix R)
+V,P2,13B,39_SEE_APPENDIX_R,GPIO port 2 interrupt (usage in C => see STC8H TRM appendix R)
+V,P3,143,40_SEE_APPENDIX_R,GPIO port 3 interrupt (usage in C => see STC8H TRM appendix R)
+V,P4,14B,41_SEE_APPENDIX_R,GPIO port 4 interrupt (usage in C => see STC8H TRM appendix R)
+V,P5,153,42_SEE_APPENDIX_R,GPIO port 5 interrupt (usage in C => see STC8H TRM appendix R)
+V,P6,15B,43_SEE_APPENDIX_R,GPIO port 6 interrupt (usage in C => see STC8H TRM appendix R)
+V,P7,163,44_SEE_APPENDIX_R,GPIO port 7 interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_M2M,17B,47_SEE_APPENDIX_R,DMA M2M interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_ADC,183,48_SEE_APPENDIX_R,DMA ADC interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_SPI,18B,49_SEE_APPENDIX_R,DMA SPI interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_UR1T,193,50_SEE_APPENDIX_R,DMA UART1 transmit interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_UR1R,19B,51_SEE_APPENDIX_R,DMA UART1 receive interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_UR2T,1A3,52_SEE_APPENDIX_R,DMA UART2 transmit interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_UR2R,1AB,53_SEE_APPENDIX_R,DMA UART2 receive interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_UR3T,1B3,54_SEE_APPENDIX_R,DMA UART3 transmit interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_UR3R,1BB,55_SEE_APPENDIX_R,DMA UART3 receive interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_UR4T,1C3,56_SEE_APPENDIX_R,DMA UART4 transmit interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_UR4R,1CB,57_SEE_APPENDIX_R,DMA UART4 receive interrupt (usage in C => see STC8H TRM appendix R)
+V,DMA_LCM,1D3,58_SEE_APPENDIX_R,DMA LCM interrupt (usage in C => see STC8H TRM appendix R)
+V,LCM,1DB,59_SEE_APPENDIX_R,LCD module interface interrupt (usage in C => see STC8H TRM appendix R)
+,,,,,,,,,,,,,
+#,F_CPU,24000000UL,,,,,,,,,,,
+#,T_CPU,1,,,,,,,,,,,
+I,inline void enableExtendedSFR() { P_SW2 |= EAXSFR; }
+I,inline void disableExtendedSFR() { P_SW2 &= ~EAXSFR; }

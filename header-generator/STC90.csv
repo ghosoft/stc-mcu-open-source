@@ -1,0 +1,142 @@
+,Symbol,Address,Default,Description,,Bit 7,Bit 6,Bit 5,Bit 4,Bit 3,Bit 2,Bit 1,Bit 0
+8,P0,80,11111111,Port 0,,P0.7,P0.6,P0.5,P0.4,P0.3,P0.2,P0.1,P0.0
+8,SP,81,00000111,Stack Pointer,,,,,,,,,
+8,DPL,82,00000000,Data Pointer (DPTR) low,,,,,,,,,
+8,DPH,83,00000000,Data Pointer (DPTR) high,,,,,,,,,
+,,84,,,,,,,,,,,
+,,85,,,,,,,,,,,
+,,86,,,,,,,,,,,
+8,PCON,87,00x10000,Power control,,SMOD,SMOD0,-,POF,GF1,GF0,PD,IDL
+8,TCON,88,00000000,Timer control,,TF1,TR1,TF0,TR0,IE1,IT1,IE0,IT0
+8,TMOD,89,00000000,Timer mode,,T1_GATE,T1_C/T,T1_M1,T1_M0,T0_GATE,T0_C/T,T0_M1,T0_M0
+8,TL0,8A,00000000,Timer 0 low,,,,,,,,,
+8,TL1,8B,00000000,Timer 1 low,,,,,,,,,
+8,TH0,8C,00000000,Timer 0 high,,,,,,,,,
+8,TH1,8D,00000000,Timer 1 high,,,,,,,,,
+8,AUXR,8E,xxxxxx00,Auxiliary register,,-,-,-,-,-,-,EXTRAM,ALEOFF
+,,8F,,,,,,,,,,,
+8,P1,90,11111111,Port 1,,P1.7,P1.6,P1.5,P1.4,P1.3,P1.2,P1.1,P1.0
+,,91,,,,,,,,,,,
+,,92,,,,,,,,,,,
+,,93,,,,,,,,,,,
+,,94,,,,,,,,,,,
+,,95,,,,,,,,,,,
+,,96,,,,,,,,,,,
+,,97,,,,,,,,,,,
+8,SCON,98,00000000,Serial control,,SM0/FE,SM1,SM2,REN,TB8,RB8,TI,RI
+8,SBUF,99,xxxxxxxx,Serial buffer,,,,,,,,,
+,,9A,,,,,,,,,,,
+,,9B,,,,,,,,,,,
+,,9C,,,,,,,,,,,
+,,9D,,,,,,,,,,,
+,,9E,,,,,,,,,,,
+,,9F,,,,,,,,,,,
+8,P2,A0,11111111,Port 2,,P2.7,P2.6,P2.5,P2.4,P2.3,P2.2,P2.1,P2.0
+,,A1,,,,,,,,,,,
+8,AUXR1,A2,xxxx0xx0,Auxiliary register 1,,-,-,-,-,GF2,-,-,DPSEL
+8,DPS,A2,,Alias of AUXR1 used by SDCC,,,,,,,,,
+,,A3,,,,,,,,,,,
+,,A4,,,,,,,,,,,
+,,A5,,,,,,,,,,,
+,,A6,,,,,,,,,,,
+,,A7,,,,,,,,,,,
+8,IE,A8,0x000000,Interrupt enable,,EA,-,ET2,ES,ET1,EX1,ET0,EX0
+8,SADDR,A9,00000000,Slave address,,,,,,,,,
+,,AA,,,,,,,,,,,
+,,AB,,,,,,,,,,,
+,,AC,,,,,,,,,,,
+,,AD,,,,,,,,,,,
+,,AE,,,,,,,,,,,
+,,AF,,,,,,,,,,,
+8,P3,B0,11111111,Port 3,,P3.7,P3.6,P3.5,P3.4,P3.3,P3.2,P3.1,P3.0
+,,B1,,,,,,,,,,,
+,,B2,,,,,,,,,,,
+,,B3,,,,,,,,,,,
+,,B4,,,,,,,,,,,
+,,B5,,,,,,,,,,,
+,,B6,,,,,,,,,,,
+8,IPH,B7,00000000,Interrupt priority register high,,PX3H,PX2H,PT2H,PSH,PT1H,PX1H,PT0H,PX0H
+8,IP,B8,xx000000,Interrupt priority register low,,-,-,PT2,PS,PT1,PX1,PT0,PX0
+8,SADEN,B9,00000000,Slave address mask,,,,,,,,,
+,,BA,,,,,,,,,,,
+,,BB,,,,,,,,,,,
+,,BC,,,,,,,,,,,
+,,BD,,,,,,,,,,,
+,,BE,,,,,,,,,,,
+,,BF,,,,,,,,,,,
+8,XICON,C0,00000000,Auxiliary interrupt control,,PX3,EX3,IE3,IT3,PX2,EX2,IE2,IT2
+,,C1,,,,,,,,,,,
+,,C2,,,,,,,,,,,
+,,C3,,,,,,,,,,,
+,,C4,,,,,,,,,,,
+,,C5,,,,,,,,,,,
+,,C6,,,,,,,,,,,
+,,C7,,,,,,,,,,,
+8,T2CON,C8,00000000,Timer/counter 2 control,,TF2,EXF2,RCLK,TCLK,EXEN2,TR2,C/T2,CP/RL2
+8,T2MOD,C9,xxxxxx00,Timer/counter 2 mode,,-,-,-,-,-,-,T2OE,DCEN
+8,RCAP2L,CA,00000000,Timer/counter 2 reload/capture low,,,,,,,,,
+8,RCAP2H,CB,00000000,Timer/counter 2 reload/capture high,,,,,,,,,
+8,TL2,CC,00000000,Timer/counter 2 low,,,,,,,,,
+8,TH2,CD,00000000,Timer/counter 2 high,,,,,,,,,
+,,CE,,,,,,,,,,,
+,,CF,,,,,,,,,,,
+8,PSW,D0,00000000,Program status word,,CY,AC,F0,RS1,RS0,OV,F1,P
+,,D1,,,,,,,,,,,
+,,D2,,,,,,,,,,,
+,,D3,,,,,,,,,,,
+,,D4,,,,,,,,,,,
+,,D5,,,,,,,,,,,
+,,D6,,,,,,,,,,,
+,,D7,,,,,,,,,,,
+,,D8,,,,,,,,,,,
+,,D9,,,,,,,,,,,
+,,DA,,,,,,,,,,,
+,,DB,,,,,,,,,,,
+,,DC,,,,,,,,,,,
+,,DD,,,,,,,,,,,
+,,DE,,,,,,,,,,,
+,,DF,,,,,,,,,,,
+8,ACC,E0,00000000,Accumulator,,,,,,,,,
+8,WDT_CONR,E1,xx000000,Watchdog timer control register,,-,-,EN_WDT,CLR_WDT,IDLE_WDT,PS2,PS1,PS0
+8,ISP_DATA,E2,11111111,,,,,,,,,,
+8,ISP_ADDRH,E3,00000000,,,,,,,,,,
+8,ISP_ADDRL,E4,00000000,,,,,,,,,,
+8,ISP_CMD,E5,11111000,,,-,-,-,-,-,MS2,MS1,MS0
+8,ISP_TRIG,E6,xxxxxxxx,,,,,,,,,,
+8,ISP_CONTR,E7,000xx000,,,ISPEN,SWBS,SWRST,-,-,WT2,WT1,WT0
+8,P4,E8,xxxx1111,Port 4,,-,-,-,-,P4.3,P4.2,P4.1,P4.0
+,,E9,,,,,,,,,,,
+,,EA,,,,,,,,,,,
+,,EB,,,,,,,,,,,
+,,EC,,,,,,,,,,,
+,,ED,,,,,,,,,,,
+,,EE,,,,,,,,,,,
+,,EF,,,,,,,,,,,
+8,B,F0,00000000,B register,,,,,,,,,
+,,F1,,,,,,,,,,,
+,,F2,,,,,,,,,,,
+,,F3,,,,,,,,,,,
+,,F4,,,,,,,,,,,
+,,F5,,,,,,,,,,,
+,,F6,,,,,,,,,,,
+,,F7,,,,,,,,,,,
+,,F8,,,,,,,,,,,
+,,F9,,,,,,,,,,,
+,,FA,,,,,,,,,,,
+,,FB,,,,,,,,,,,
+,,FC,,,,,,,,,,,
+,,FD,,,,,,,,,,,
+,,FE,,,,,,,,,,,
+,,FF,,,,,,,,,,,
+,,,,,,,,,,,,,
+V,EXTINT0,03,0,External interrupt 0
+V,TIMER0,0B,1,Timer 0 interrupt
+V,EXTINT1,13,2,External interrupt 1
+V,TIMER1,1B,3,Timer 1 interrupt
+V,UART1,23,4,UART 1 interrupt
+V,TIMER2,2B,5,Timer 2 interrupt
+V,EXTINT2,33,6,External interrupt 2 (falling edge only)
+V,EXTINT3,3B,7,External interrupt 3 (falling edge only)
+,,,,,,,,,,,,,
+#,F_CPU,,11095200UL,,,,,,,,,,
+#,T_CPU,12,,,,,,,,,,,
