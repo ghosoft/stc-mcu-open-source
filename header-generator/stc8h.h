@@ -892,28 +892,28 @@ SFRX(P6NCS, 0xFE1E);
 // SFR P7NCS: Port 7 Schmidt trigger control register
 SFRX(P7NCS, 0xFE1F);
 
-// SFR P0SR: Port 0 level transition rate register
+// SFR P0SR: Port 0 slew rate control register
 SFRX(P0SR, 0xFE20);
 
-// SFR P1SR: Port 1 level transition rate register
+// SFR P1SR: Port 1 slew rate control register
 SFRX(P1SR, 0xFE21);
 
-// SFR P2SR: Port 2 level transition rate register
+// SFR P2SR: Port 2 slew rate control register
 SFRX(P2SR, 0xFE22);
 
-// SFR P3SR: Port 3 level transition rate register
+// SFR P3SR: Port 3 slew rate control register
 SFRX(P3SR, 0xFE23);
 
-// SFR P4SR: Port 4 level transition rate register
+// SFR P4SR: Port 4 slew rate control register
 SFRX(P4SR, 0xFE24);
 
-// SFR P5SR: Port 5 level transition rate register
+// SFR P5SR: Port 5 slew rate control register
 SFRX(P5SR, 0xFE25);
 
-// SFR P6SR: Port 6 level transition rate register
+// SFR P6SR: Port 6 slew rate control register
 SFRX(P6SR, 0xFE26);
 
-// SFR P7SR: Port 7 level transition rate register
+// SFR P7SR: Port 7 slew rate control register
 SFRX(P7SR, 0xFE27);
 
 // SFR P0DR: Port 0 drive current control register

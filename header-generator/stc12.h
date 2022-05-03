@@ -536,4 +536,7 @@ SFR(CCAP1H, 0xFB);
 #define T_CPU 1
 #endif
 
+inline void enableExtendedSFR() {/* For compatibility. */}
+inline void disableExtendedSFR() {/* For compatibility. */}
+
 #endif // _STC12_H

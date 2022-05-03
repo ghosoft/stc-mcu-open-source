@@ -857,4 +857,7 @@ SFRX(PWMCKS, 0xFFF2);
 #define T_CPU 1
 #endif
 
+inline void enableExtendedSFR() { P_SW2 |= EAXSFR; }
+inline void disableExtendedSFR() { P_SW2 &= ~EAXSFR; }
+
 #endif // _STC15_H

@@ -330,4 +330,7 @@ SFR(B, 0xF0);
 #define T_CPU 12
 #endif
 
+inline void enableExtendedSFR() {/* For compatibility. */}
+inline void disableExtendedSFR() {/* For compatibility. */}
+
 #endif // _STC90_H
