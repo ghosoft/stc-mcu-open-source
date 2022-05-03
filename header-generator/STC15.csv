@@ -196,3 +196,5 @@ V,PWMFD,BB,23,Enhanced PWM (STC15W4KxxS4 only) fault detection interrupt
 ,,,,,,,,,,,,,
 #,F_CPU,24000000UL,,,,,,,,,,,
 #,T_CPU,1,,,,,,,,,,,
+I,inline void enableExtendedSFR() { P_SW2 |= EAXSFR; }
+I,inline void disableExtendedSFR() { P_SW2 &= ~EAXSFR; }

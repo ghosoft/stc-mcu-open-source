@@ -142,3 +142,5 @@ V,SPI,4B,9,SPI interrupt
 ,,,,,,,,,,,,,
 #,F_CPU,,11095200UL,,,,,,,,,,
 #,T_CPU,1,,,,,,,,,,,
+I,inline void enableExtendedSFR() {/* For compatibility. */}
+I,inline void disableExtendedSFR() {/* For compatibility. */}

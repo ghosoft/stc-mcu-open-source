@@ -9,7 +9,7 @@ interrupt vectors, bank switching functions and a few useful macros
 Usage: ./generate-header STC8AF.csv stc8af.h
 
 It comes with a few CSV file examples for the STC8A, STC8F, STC8G, 
-STC8H, STC15, STC16, STC12 and STC90 MCU families.
+STC8H, STC15, STC12 and STC90 MCU families.
 
 These files were manually created using information from the STC
 reference manuals of the respective MCU families.
@@ -22,7 +22,7 @@ If present, the license.txt file will be included at the top of each
 generated header.
 
 Note that there's nothing specific to STC in this code generator. You 
-could use it for any other MCS-x51 MCU provided you create its CSV file.
+could use it for any other MCS-51 MCU provided you create its CSV file.
 
 IMPORTANT
 
