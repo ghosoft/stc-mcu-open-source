@@ -242,6 +242,9 @@ SFR(P_SW1, 0xA2);
 #define S1_S0 0x40
 #define S1_S1 0x80
 
+// SFR AUXR1: Alias for backward compatibility
+SFR(AUXR1, 0xA2);
+
 // SFR DPS: Alias of P_SW1 used by SDCC
 SFR(DPS, 0xA2);
 
