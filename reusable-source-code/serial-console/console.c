@@ -27,17 +27,19 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#include "stc15.h"
-#include "console-stc15.h"
+#include "project-defs.h"
+#include "console.h"
 
 /**
- * @file console-stc15.c
+ * @file console.c
  * 
- * Serial console driver: STC15 implementation.
- * 
- * IMPORTANT: only the STC15W4KxxS4 and STC15F2KxxS2 have an UART2.
- * Other STC15 series have only one UART.
+ * Serial console driver implementation for STC12, STC15 
+ * and STC8A/F/G/H.
  */
+
+#if defined(_STC8AF_H) || defined(_STC8G_H) || defined(_STC8H_H)
+#define __MCU_IS_STC8
+#endif // _STC8AF_H || _STC8G_H || _STC8H_H
 
 volatile char __console_sending;
 
@@ -46,10 +48,8 @@ unsigned char __console_inputBuffer[INPUT_BUFFER_SIZE];
 volatile unsigned char __console_bufferFirst;
 volatile unsigned char __console_bufferNext;
 
-// TxD2 is on P1.1 (pin 10 on DIP40) and RxD2 on P1.0 (pin 9 on DIP40)
-// (the alternative location is TxD2 on P4.7 and RxD2 on P4.6, 
-// but these pins are not available on DIP40 packages.)
 void console_initialise(unsigned long baudRate) {
+#if defined(__MCU_IS_STC8) || defined(_STC15_H)
 	// Set Timer 2 reload value
 	unsigned int reloadValue =  (unsigned int) (65536UL - (F_CPU / baudRate / 4UL));
 	T2L = reloadValue & 0xFF;
@@ -61,11 +61,37 @@ void console_initialise(unsigned long baudRate) {
 	// Start Timer 2
 	AUXR |= T2R;
 	
+#if defined(_STC8AF_H)
+	// STC8A: assign UART2 lines to P4 (P4.0 = RxD2, P4.2 = TxD2)
+	// instead of the default (P1.0 = RxD2, P1.1 = TxD2).
+	P_SW2 |= 1;
+#endif // _STC8AF_H
+	
 	// Set UART2 in mode 0 and clear interrupt flags
 	S2CON = 0x10;
 	
 	// Enable Serial port 2 interrupt
 	IE2 |= ES2;
+#endif // __MCU_IS_STC8 || _STC15_H
+
+#if defined(_STC12_H)
+	// Set baud rate timer reload value
+	BRT =  (unsigned char) (256UL - (F_CPU / baudRate / 32UL));
+	// If bit S2SMOD (double baud rate) was set in AUXR,
+	// baudRate would be divided by 16 instead of 32.
+	
+	// Set clock source of baud rate timer to SYSclk/1
+	AUXR |= BRTx12;
+	
+	// Start baud rate timer
+	AUXR |= BRTR;
+	
+	// Set UART2 in mode 1 and clear interrupt flags
+	S2CON = 0x50;
+	
+	// Enable Serial port 2 interrupt
+	IE2 |= ES2;
+#endif // _STC12_H
 	
 	__console_bufferFirst = 0;
 	__console_bufferNext = 0;

@@ -33,7 +33,7 @@
 /**
  * @file console-stc90.h
  * 
- * Serial console driver: STC90-specific definitions.
+ * Serial console driver: definitions.
  * 
  * Pin assignments:
  * 
@@ -45,8 +45,29 @@
  * file where main() is defined.
  */
 
-void __uart1_isr() __interrupt UART1_INTERRUPT __using 1;
+/**
+ * Initialises the driver.
+ * 
+ * Configures the UART and initialises the driver's internal state.
+ * 
+ * Note the console uses the one and only UART of the poor STC90...
+ */
+void console_initialise(unsigned long baudRate);
 
-#include "console.h"
+/**
+ * Initiates the transmission of a character.
+ * 
+ * The character is placed in the output buffer, and transmission is 
+ * (re-)started if needed.
+ */
+void console_sendCharacter(unsigned char c);
+
+/**
+ * @returns the next character available in the input buffer, 
+ * or 0 if the buffer was empty.
+ */
+unsigned char console_readCharacter();
+
+void __uart1_isr() __interrupt UART1_INTERRUPT __using 1;
 
 #endif // _CONSOLE_STC90_H

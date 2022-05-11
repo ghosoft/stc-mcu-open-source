@@ -34,6 +34,34 @@
  * @file console.h
  * 
  * Serial console driver: definitions.
+ * 
+ * **IMPORTANT:** In order to satisfy SDCC's requirements for ISR 
+ * handling, this header file **MUST** be included in the C source 
+ * file where main() is defined.
+ * 
+ * Pin assignments:
+ * 
+ * STC12 (only the STC12C5AxxS2 has an UART2)
+ * 
+ * RxD = P1.2 (alternative is P4.2, but not available on all packages)
+ * TxD = P1.3 (alternative is P4.3, but not available on all packages)
+ * 
+ * STC15 (only the STC15W4KxxS4 and STC15F2KxxS2 have an UART2)
+ * 
+ * RxD = P1.0 (alternative is P4.6, but not available on all packages)
+ * TxD = P1.1 (alternative is P4.7, but not available on all packages)
+ * 
+ * STC8A/F (we assume we're using an MCU in LQFP44/48/64 package)
+ * 
+ * RxD = P4.0 (normally P1.0, but often used for I/O)
+ * TxD = P4.2 (normally P1.1, but often used for I/O)
+ * 
+ * STC8G/H (only STC8G1Kxx-38I in 16- or 20-pin package
+ *          and STC8G2KxxSy have an UART2. All STC8H do)
+ * 
+ * RxD = P1.0 (alternative is P4.6, but not available on all packages)
+ * TxD = P1.1 (alternative is P4.7, but not available on all packages)
+ * 
  */
 
 /**
@@ -41,9 +69,7 @@
  * 
  * Configures the UART and initialises the driver's internal state.
  * 
- * On the old STC89 and STC90 series, the console uses the one and only 
- * UART of the MCU. On more recent MCU (STC12, STC15, and STC8), the 
- * console uses UART2, leaving UART1 for flash programming.
+ * Note: the console uses UART2, leaving UART1 for flash programming.
  */
 void console_initialise(unsigned long baudRate);
 
@@ -60,5 +86,7 @@ void console_sendCharacter(unsigned char c);
  * or 0 if the buffer was empty.
  */
 unsigned char console_readCharacter();
+
+void __uart2_isr() __interrupt UART2_INTERRUPT __using 1;
 
 #endif // _CONSOLE_H

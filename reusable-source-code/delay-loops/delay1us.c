@@ -27,47 +27,19 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#include "delay.h"
+#include "project-defs.h"
+#include "delay1us.h"
 
-/**
- * @file delay-stc90.c
- * 
- * Calibrated delay loops: STC90 implementation.
- * 
- * Tested on an STC90C58RD+ clocked by an 11.0952 MHz crystal.
+/*
+ * Only valid for an STC8 running at 24 MHz.
+ * Error is +33 % for 1us, 3.3 % for 10us, 0.33 % for 100us.
  */
 
-#if T_CPU == 6
-#define DELAY_1ms ((unsigned int) (((F_CPU / 1000UL) - 114UL) / 72UL))
-#else
-#define DELAY_1ms ((unsigned int) (((F_CPU / 1000UL) - 228UL) / 144UL))
-#endif
-
-// 12T mode: total_cycles = ms (144 n + 12 (n div 256) + 180) + 12 (ms div 256) + 120
-// 6T mode: total_cycles = ms (72 n + 6 (n div 256) + 90) + 6 (ms div 256) + 60
-// total_cycles = delay (= 1e-3 s) * oscillator_frequency (in Hz)
-void delay1ms(unsigned int ms) {
-	for (unsigned int i = ms; i; i--) {
-		for (unsigned int n = DELAY_1ms; n; n--) {
-			__asm nop __endasm;
-			__asm nop __endasm;
-			__asm nop __endasm;
-		}
-	}
-}
-
-#if T_CPU == 6
-#define DELAY_10us ((unsigned char) (((F_CPU / 100000UL) - 84UL) / 36UL))
-#else
-#define DELAY_10us ((unsigned char) (((F_CPU / 100000UL) - 168UL) / 72UL))
-#endif
-
-// 12T mode: total_cycles = us (72 n + 120) + 84
-// 6T mode: total_cycles = us (36 n + 60) + 42
-// total_cycles = delay (= 1e-5 s) * oscillator_frequency (in Hz)
-void delay10us(unsigned char us) {
+void delay1us(unsigned char us) {
 	for (unsigned char i = us; i; i--) {
-		for (unsigned char n = DELAY_10us; n; n--) {
+		for (unsigned char n = 2; n; n--) {
 		}
+		
+		__asm nop __endasm;
 	}
 }

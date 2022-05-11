@@ -1,5 +1,4 @@
-1. Add the delay-stcXX.c file matching your MCU to your Makefile.
-
+1. Add delay.c to your Makefile.
 2. Include delay.h when you need tu use delays.
 
 NOTE: delay.h provides 2 functions, one for delays in milliseconds, and 
@@ -11,4 +10,4 @@ whole STC MCU product range.
 If you need delays in microseconds, you'll have to implement a delay 
 loop specific to your use case.
 
-delay1us.h and delay1us-stc8.c illustrate such an option.
+delay1us.h and delay1us.c illustrate such an option.

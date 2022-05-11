@@ -1,0 +1,16 @@
+Copy the files you need in your project directory and follow the 
+instructions in their respective HOW-TO-USE file.
+
+*** IMPORTANT ***
+**********************************************************************
+* Your project MUST contain a project-defs.h file that includes the  *
+* header file of the MCU family you're using, and provides any other *
+* relevant project-wide definitions you may need.                    *
+**********************************************************************
+
+The abstractions provided here are developed in such a way that you 
+only need to change the content of project-defs.h and rebuild your 
+project to make it use another MCU.
+
+project-defs.h is also a good place to define your pin assignments, 
+which are also likely to change when using another MCU.

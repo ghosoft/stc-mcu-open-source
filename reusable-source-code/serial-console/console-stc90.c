@@ -27,7 +27,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#include "stc90.h"
+#include "project-defs.h"
 #include "console-stc90.h"
 
 /**
