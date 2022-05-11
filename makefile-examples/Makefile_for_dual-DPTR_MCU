@@ -68,8 +68,9 @@ MCU_FREQ = 24000000
 TARGET_ARCH = -mmcs51
 MEMORY_MODEL = --model-large
 # The STC8A8K64S4A12 has 64K flash, 8K xdata RAM, and 256 bytes 
-# internal RAM.
+# scratch-pad RAM.
 MEMORY_SIZES = \
+	--xram-loc 0 \
 	--xram-size 8192 \
 	--stack-size 128 \
 	--code-size 65536
